@@ -7,8 +7,8 @@ namespace UnluCoProductCatalog.Application.Interfaces.Repositories
 {
     public interface IRepositoryBase<T> where T : BaseEntity
     {
-        ICollection<T> GetAll();
-        ICollection<T> Get(Expression<Func<T, bool>> filter);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> Get(Expression<Func<T, bool>> filter);
         T GetById(int id);
         void Create(T entity);
         void Delete(T entity);

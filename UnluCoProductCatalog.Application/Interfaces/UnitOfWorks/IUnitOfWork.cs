@@ -11,7 +11,7 @@ namespace UnluCoProductCatalog.Application.Interfaces.UnitOfWorks
         IBrandRepository BrandRepository { get; }
         IUsingStatusRepository UsingStatus { get; }
         IAccountDetailRepository AccountDetail { get;}
-        int SaveChanges();
+        bool SaveChanges();
 
     }
 }

@@ -2,7 +2,7 @@
 
 namespace UnluCoProductCatalog.Domain.Entities
 {
-    public class AccountDetail :BaseEntity
+    public class AccountDetail : BaseEntity
     {
         public ICollection<Offer> Offers { get; set; }
         public ICollection<Product> Products { get; set; }
