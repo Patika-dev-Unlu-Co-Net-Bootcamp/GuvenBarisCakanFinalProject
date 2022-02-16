@@ -14,6 +14,7 @@ namespace UnluCoProductCatalog.Domain.Entities
         public  ICollection<Color> Colors { get; set; }
         public  ICollection<Brand> Brands { get; set; }
         public  ICollection<Offer> Offers { get; set; }
+        public int UserId { get; set; }
         public ICollection<User> Users { get; set; }
         [Required]
         public ICollection<UsingStatus> UsingStatuses { get; set; }

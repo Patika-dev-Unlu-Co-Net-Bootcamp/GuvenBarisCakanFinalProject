@@ -2,7 +2,10 @@
 {
     public class Offer : BaseEntity
     {
-        public float Percent { get; set; }
+        public int Percent { get; set; } = 40;
+        public bool IsApproved { get; set; }
+        public bool IsSold { get; set; } = false;
+        public  double OfferedPrice { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public int ProductId { get; set; }

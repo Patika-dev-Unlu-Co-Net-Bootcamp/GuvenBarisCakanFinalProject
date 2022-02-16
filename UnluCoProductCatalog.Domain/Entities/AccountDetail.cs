@@ -6,8 +6,6 @@ namespace UnluCoProductCatalog.Domain.Entities
     {
         public ICollection<Offer> Offers { get; set; }
         public ICollection<Product> Products { get; set; }
-        public bool IsApproved { get; set; }
-        public bool IsSold { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
     }

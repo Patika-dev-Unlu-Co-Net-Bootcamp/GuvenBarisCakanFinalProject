@@ -5,10 +5,10 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
 {
     public interface IOfferService
     {
-        IEnumerable<OfferViewModel> GetAll();
-        IEnumerable<OfferViewModel> GetById(int id);
-        void Create(OfferViewModel entity);
-        void Update(OfferViewModel entity);
-        void Delete(OfferViewModel entity);
+        IEnumerable<GetOfferQueryViewModel> GetUserOffer(int userId);
+        IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(int userId);
+        void Create(CreateOfferViewModel entity);
+        void OfferApprove(UpdateOfferViewModel entity,int offerId);
+        void Delete(int entity);
     }
 }
