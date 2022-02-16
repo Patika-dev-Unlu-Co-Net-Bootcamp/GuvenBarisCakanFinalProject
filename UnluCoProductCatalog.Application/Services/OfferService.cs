@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 using UnluCoProductCatalog.Domain.Entities;
+
 
 namespace UnluCoProductCatalog.Application.Services
 {
@@ -21,23 +20,6 @@ namespace UnluCoProductCatalog.Application.Services
             _mapper = mapper;
         }
 
-
-        public IEnumerable<GetOfferQueryViewModel> GetUserOffer(int userId)
-        {
-            var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
-                .SelectMany(o => o.Offers).Where(o =>o.IsSold == false);
-
-            return _mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
-        }
-
-        public IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(int userId)
-        {
-
-            var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
-                .SelectMany(x => x.Products).SelectMany(x=>x.Offers).Where(o => o.IsSold == false); ;
-
-            return _mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
-        }
 
         public void Create(CreateOfferViewModel entity)
         {
@@ -74,17 +56,6 @@ namespace UnluCoProductCatalog.Application.Services
 
         }
 
-        public void OfferApprove(UpdateOfferViewModel entity,int offerId)
-        {
-            var offer = _unitOfWork.Offer.GetById(offerId);
-            if (entity.IsApproved)
-            {
-                offer.IsSold = true;
-            }
-
-            offer.IsSold = false;
-        }
-
         public void Delete(int id)
         {
             var offer = _unitOfWork.Offer.GetById(id);
@@ -99,6 +70,31 @@ namespace UnluCoProductCatalog.Application.Services
             
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Offer");
+        }
+
+        public void Update(UpdateOfferViewModel entity,int id)
+        {
+            var offer = _mapper.Map<Offer>(entity);
+
+            if (offer is null)
+            {
+                throw new NotFoundExceptions("Offer", id);
+            }
+            _unitOfWork.Offer.Update(offer);
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("Offer");
+
+        }
+
+        public void OfferApprove(int offerId)
+        {
+            var offer = _unitOfWork.Offer.GetById(offerId);
+            if (offer.IsApproved)
+            {
+                offer.IsSold = true;
+            }
+
+            offer.IsSold = false;
         }
     }
 }

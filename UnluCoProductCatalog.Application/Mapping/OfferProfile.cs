@@ -9,6 +9,8 @@ namespace UnluCoProductCatalog.Application.Mapping
         public OfferProfile()
         {
             CreateMap<GetOfferQueryViewModel, Offer>();
+            CreateMap<Offer, CreateOfferViewModel>();
+
         }
     }
 }

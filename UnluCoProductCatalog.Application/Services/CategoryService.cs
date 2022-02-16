@@ -22,19 +22,19 @@ namespace UnluCoProductCatalog.Application.Services
         public IEnumerable<CategoryViewModel> GetAll()
         {
             var categories = _unitOfWork.Category.GetAll();
-            return _mapper.Map<ICollection<CategoryViewModel>>(categories);
+            return _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
         }
 
-        public IEnumerable<ProductViewModel> GetProductsByCategoryId(int id)
+        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
         {
             if (id == 0)
             { 
                 var productsAll = _unitOfWork.Product.GetAll();
-                return _mapper.Map<ICollection<ProductViewModel>>(productsAll);
+                return _mapper.Map<IEnumerable<GetProductViewModel>>(productsAll);
             }
 
             var productsFilter = _unitOfWork.Product.Get(p => p.CategoryId == id);
-            return _mapper.Map<ICollection<ProductViewModel>>(productsFilter);
+            return _mapper.Map<IEnumerable<GetProductViewModel>>(productsFilter);
 
         }
 

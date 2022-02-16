@@ -8,7 +8,7 @@ namespace UnluCoProductCatalog.Application.Interfaces.UnitOfWorks
         IOfferRepository Offer { get; }
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
-        IBrandRepository BrandRepository { get; }
+        IBrandRepository Brand { get; }
         IUsingStatusRepository UsingStatus { get; }
         IAccountDetailRepository AccountDetail { get;}
         bool SaveChanges();

@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
-using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 
 namespace WebAPI.Controllers
 {
@@ -16,42 +15,36 @@ namespace WebAPI.Controllers
             _categoryService = categoryService;
         }
 
-
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_categoryService.GetAll());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("categoryId/{id}")]
         public IActionResult GetProductByCategory(int id)
         {
-            // Kategori Id ye göre ürünleri dön id == 0 ise bütün ürünler dönülecek
-
-            return Ok();
+            return Ok(_categoryService.GetProductsByCategoryId(id));
         }
 
         [HttpPost]
-        public IActionResult Create()
+        public IActionResult Create([FromBody] CategoryViewModel category)
         {
-            //[FromBody]CategoryModel model
-            //Category oluştur.
+            _categoryService.Create(category);
             return Ok();
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id}")]
+        public IActionResult Update([FromBody] CategoryViewModel model,int id)
         {
-            //[FromBody]CategoryModel model
-            //Category güncelle.
+            _categoryService.Update(model,id);
             return Ok();
         }
 
-        [HttpPatch]
-        public IActionResult UpdateIsDeleted()
+        [HttpDelete("{id}")]
+        public IActionResult UpdateIsDeleted(int id)
         {
-            //[FromBody] bool 
-            //Category isDeleted güncelle.
+            _categoryService.Delete(id);
             return Ok();
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -14,7 +9,8 @@ namespace UnluCoProductCatalog.Application.Mapping
 
         public ProductProfile()
         {
-            CreateMap<ProductViewModel, Product>();
+            CreateMap<GetProductViewModel, Product>();
+            CreateMap<Product, CreateProductViewModel>();
         }
     }
 }

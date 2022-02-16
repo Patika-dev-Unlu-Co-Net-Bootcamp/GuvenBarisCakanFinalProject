@@ -9,5 +9,7 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
         public ProductRepository(ProductCatalogDbContext context) : base(context)
         {
         }
+
+
     }
 }

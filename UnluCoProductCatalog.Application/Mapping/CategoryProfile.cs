@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using UnluCoProductCatalog.Application.Features.CategoryFeatures.Commands.CreateCategory;
 using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
