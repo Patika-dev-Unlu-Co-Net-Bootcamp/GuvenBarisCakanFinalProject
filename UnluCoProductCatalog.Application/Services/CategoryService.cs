@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
@@ -40,6 +41,9 @@ namespace UnluCoProductCatalog.Application.Services
 
         public void Create(CategoryViewModel entity)
         {
+            var validator = new CategoryViewModelValidator();
+            validator.Validate(entity);
+
             var category =  _mapper.Map<Category>(entity);
 
             _unitOfWork.Category.Create(category);
@@ -50,6 +54,9 @@ namespace UnluCoProductCatalog.Application.Services
 
         public void Update(CategoryViewModel entity,int id)
         {
+            var validator = new CategoryViewModelValidator();
+            validator.Validate(entity);
+
             var category = _unitOfWork.Category.GetById(id);
 
             if (category is null)

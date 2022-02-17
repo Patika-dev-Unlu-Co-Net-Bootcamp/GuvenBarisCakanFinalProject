@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations;
+using UnluCoProductCatalog.Application.Validations.OfferValidation;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -51,8 +54,12 @@ namespace UnluCoProductCatalog.Application.Services
             _unitOfWork.SaveChanges();
         }
 
-        public void Create(CreateProductViewModel entity)
+        public async Task Create(CreateProductViewModel entity)
         {
+            var validator = new CreateProductViewModelValidator();
+
+            await validator.ValidateAsync(entity);
+
             var product = _mapper.Map<Product>(entity);
             product.IsSold = false;
             product.IsOfferable = false;

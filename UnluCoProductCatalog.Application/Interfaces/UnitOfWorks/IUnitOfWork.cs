@@ -8,7 +8,6 @@ namespace UnluCoProductCatalog.Application.Interfaces.UnitOfWorks
         IOfferRepository Offer { get; }
         IProductRepository Product { get; }
         ICategoryRepository Category { get; }
-        IUserRepository User { get; }
         IBrandRepository Brand { get; }
         IUsingStatusRepository UsingStatus { get; }
         IAccountDetailRepository AccountDetail { get;}

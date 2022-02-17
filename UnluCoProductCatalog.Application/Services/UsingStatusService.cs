@@ -3,6 +3,7 @@ using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.ViewModels.UsingStatusViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -25,8 +26,21 @@ namespace UnluCoProductCatalog.Application.Services
 
         public void Update(UsingStatusViewModel entity)
         {
+            var validator = new UsingStatusViewModelValidator();
+            validator.Validate(entity);
+
             var usingStatus = _mapper.Map<UsingStatus>(entity);
             _unitOfWork.UsingStatus.Update(usingStatus);
+            _unitOfWork.SaveChanges();
+        }
+
+        public void Create(UsingStatusViewModel entity)
+        {
+            var validator = new UsingStatusViewModelValidator();
+            validator.Validate(entity);
+
+            var usingStatus = _mapper.Map<UsingStatus>(entity);
+            _unitOfWork.UsingStatus.Create(usingStatus);
             _unitOfWork.SaveChanges();
         }
 

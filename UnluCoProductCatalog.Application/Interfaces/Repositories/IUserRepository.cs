@@ -3,8 +3,8 @@ using UnluCoProductCatalog.Domain.Entities;
 
 namespace UnluCoProductCatalog.Application.Interfaces.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<User>
-    {
-        IEnumerable<OperationClaim> GetClaims(int userId);
-    }
+    //public interface IUserRepository : IRepositoryBase<User>
+    //{
+    //    IEnumerable<OperationClaim> GetClaims(int userId);
+    //}
 }

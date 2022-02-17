@@ -7,6 +7,7 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     {
         ICollection<UsingStatusViewModel> GetAll();
         void Update(UsingStatusViewModel entity);
+        void Create(UsingStatusViewModel entity);
         void Delete(int id);
     }
 }

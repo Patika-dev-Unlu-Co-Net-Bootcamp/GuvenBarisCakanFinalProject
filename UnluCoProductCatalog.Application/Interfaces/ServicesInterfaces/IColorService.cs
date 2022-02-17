@@ -8,6 +8,7 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     {
         ICollection<ColorViewModel> GetAll();
         void Update(ColorViewModel entity);
+        void Create(ColorViewModel entity);
         void Delete(int id);
     }
 }

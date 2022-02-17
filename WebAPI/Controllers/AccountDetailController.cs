@@ -14,7 +14,6 @@ namespace WebAPI.Controllers
             _accountDetailService = accountDetailService;
         }
 
-
         [HttpGet("getuseroffers")]
         public IActionResult GetUserOffer()
         {

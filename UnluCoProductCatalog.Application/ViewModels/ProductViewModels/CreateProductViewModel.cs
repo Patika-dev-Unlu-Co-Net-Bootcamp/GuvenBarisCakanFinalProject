@@ -1,7 +1,4 @@
 ﻿
-using System.Collections.Generic;
-using UnluCoProductCatalog.Domain.Entities;
-
 namespace UnluCoProductCatalog.Application.ViewModels.ProductViewModels
 {
     public class CreateProductViewModel 

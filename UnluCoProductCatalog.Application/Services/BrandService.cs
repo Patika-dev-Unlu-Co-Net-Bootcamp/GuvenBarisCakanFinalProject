@@ -3,6 +3,7 @@ using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.ViewModels.BrandViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -26,8 +27,20 @@ namespace UnluCoProductCatalog.Application.Services
 
         public void Update(BrandViewModel entity)
         {
+            var validator = new BrandViewModelValidator();
+            validator.Validate(entity);
             var brand =_mapper.Map<Brand>(entity);
             _unitOfWork.Brand.Update(brand);
+            _unitOfWork.SaveChanges();
+        }
+
+        public void Create(BrandViewModel entity)
+        {
+            var validator = new BrandViewModelValidator();
+            validator.Validate(entity);
+            
+            var brand = _mapper.Map<Brand>(entity);
+            _unitOfWork.Brand.Create(brand);
             _unitOfWork.SaveChanges();
         }
 

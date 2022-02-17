@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace UnluCoProductCatalog.Domain.Entities
 {
-    public class User : BaseEntity
+    public class User : IdentityUser
     {
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public bool IsDeleted { get; set; } = false;
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
-        public byte[] PasswordSalt { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public ICollection<OperationClaim> OperationClaims { get; set; }
         public AccountDetail AccountDetail { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace UnluCoProductCatalog.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<GetOfferQueryViewModel> GetUserOffer(int userId)
+        public IEnumerable<GetOfferQueryViewModel> GetUserOffer(string userId)
         {
             var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
                 .SelectMany(o => o.Offers).Where(o => o.IsSold == false);
@@ -25,7 +25,7 @@ namespace UnluCoProductCatalog.Application.Services
             return _mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
         }
 
-        public IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(int userId)
+        public IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(string userId)
         {
 
             var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)

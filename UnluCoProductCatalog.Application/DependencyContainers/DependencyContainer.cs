@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-
 namespace UnluCoProductCatalog.Application.DependencyContainers
 {
     public static class DependencyContainer

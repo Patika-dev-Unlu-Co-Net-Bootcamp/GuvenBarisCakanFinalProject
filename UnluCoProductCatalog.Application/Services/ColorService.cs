@@ -3,6 +3,7 @@ using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.ViewModels.ColorViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -23,10 +24,24 @@ namespace UnluCoProductCatalog.Application.Services
             return _mapper.Map<ICollection<ColorViewModel>>(_unitOfWork.Color.GetAll());
         }
 
+
         public void Update(ColorViewModel entity)
         {
+            var validator = new ColorViewModelValidator();
+            validator.Validate(entity);
+
             var color = _mapper.Map<Color>(entity);
             _unitOfWork.Color.Update(color);
+            _unitOfWork.SaveChanges();
+        }
+
+        public void Create(ColorViewModel entity)
+        {
+            var validator = new ColorViewModelValidator();
+            validator.Validate(entity);
+
+            var color = _mapper.Map<Color>(entity);
+            _unitOfWork.Color.Create(color);
             _unitOfWork.SaveChanges();
         }
 

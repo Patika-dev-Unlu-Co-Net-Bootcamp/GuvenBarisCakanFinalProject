@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
+using UnluCoProductCatalog.Application.Validations.OfferValidation;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -21,13 +23,10 @@ namespace UnluCoProductCatalog.Application.Services
         }
 
 
-        public void Create(CreateOfferViewModel entity)
+        public async Task Create(CreateOfferViewModel entity)
         {
-            if (entity.OfferPrice < 0)
-            {
-                //Validasyon eklenecek
-                throw new InvalidOperationException("Price is not valid");
-            }
+            var validator = new CreateOfferViewModelValidator();
+            await validator.ValidateAsync(entity);
 
             var product =  _unitOfWork.Product.GetById(entity.ProductId);
 
@@ -53,13 +52,11 @@ namespace UnluCoProductCatalog.Application.Services
             {
                 throw new InvalidOperationException("Offer can not be created");
             }
-
         }
 
         public void Delete(int id)
         {
             var offer = _unitOfWork.Offer.GetById(id);
-
 
             if (offer is null)
                 throw new NotFoundExceptions("Offer", id);
@@ -72,14 +69,19 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotSavedExceptions("Offer");
         }
 
-        public void Update(UpdateOfferViewModel entity,int id)
+        public async Task Update(UpdateOfferViewModel entity,int id)
         {
+            var validator = new UpdateOfferViewModelValidator();
+            await validator.ValidateAsync(entity);
+
+            //var offer =  _unitOfWork.Offer.GetById(id);
             var offer = _mapper.Map<Offer>(entity);
 
             if (offer is null)
             {
                 throw new NotFoundExceptions("Offer", id);
             }
+            
             _unitOfWork.Offer.Update(offer);
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Offer");

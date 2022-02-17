@@ -7,6 +7,8 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     {
         ICollection<BrandViewModel> GetAll();
         void Update(BrandViewModel entity);
+        void Create(BrandViewModel entity);
         void Delete(int id);
     }
+
 }
