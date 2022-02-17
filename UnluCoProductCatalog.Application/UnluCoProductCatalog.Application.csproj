@@ -9,15 +9,8 @@
   </ItemGroup>
     
   <ItemGroup>
-    <Folder Include="Features\CategoryFeatures\Commands\PatchUpdateCategory\" />
-    <Folder Include="Features\CategoryFeatures\Queries\GetAllCategory\" />
-  </ItemGroup>
-    
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
 </Project>

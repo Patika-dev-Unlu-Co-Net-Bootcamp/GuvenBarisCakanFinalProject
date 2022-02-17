@@ -8,7 +8,8 @@ namespace UnluCoProductCatalog.Infrastructure.Contexts
         public ProductCatalogDbContext(DbContextOptions<ProductCatalogDbContext> options ): base(options)
         {
         }
-        
+
+        public DbSet<User> Users { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -16,5 +17,6 @@ namespace UnluCoProductCatalog.Infrastructure.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<UsingStatus> UsingStatuses { get; set; }
         public DbSet<AccountDetail> AccountDetails { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
     }
 }

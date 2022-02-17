@@ -25,7 +25,6 @@ namespace UnluCoProductCatalog.Infrastructure.DependencyContainers
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUsingStatusRepository, UsingStatusRepository>();
             services.AddScoped<IAccountDetailRepository, AccountDetailRepository>();
-        
         }
     }
 }

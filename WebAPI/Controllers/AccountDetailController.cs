@@ -18,7 +18,6 @@ namespace WebAPI.Controllers
         [HttpGet("getuseroffers")]
         public IActionResult GetUserOffer()
         {
-
             //User ID verilecek....
             _accountDetailService.GetUserOffer(1);
             return Ok();
@@ -27,7 +26,6 @@ namespace WebAPI.Controllers
         [HttpGet("getuserproductoffer")]
         public IActionResult GetOffersOnUserProducts()
         {
-
             //User ID verilecek....
             _accountDetailService.GetOffersOnUserProducts(1);
             return Ok();
