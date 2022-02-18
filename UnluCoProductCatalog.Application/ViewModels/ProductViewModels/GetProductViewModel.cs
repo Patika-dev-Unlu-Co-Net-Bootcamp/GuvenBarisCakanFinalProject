@@ -13,7 +13,6 @@ namespace UnluCoProductCatalog.Application.ViewModels.ProductViewModels
         public string ColorName { get; set; }
         public string BrandName { get; set; }
         public List<Offer> Offers { get; set; }
-        public string UserName { get; set; }
         public string UsingStatus { get; set; }
     }
 }

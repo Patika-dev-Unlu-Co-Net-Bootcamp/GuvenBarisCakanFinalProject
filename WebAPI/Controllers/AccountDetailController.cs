@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 
 namespace WebAPI.Controllers
@@ -17,17 +18,16 @@ namespace WebAPI.Controllers
         [HttpGet("getuseroffers")]
         public IActionResult GetUserOffer()
         {
-            //User ID verilecek....
-            _accountDetailService.GetUserOffer(1);
-            return Ok();
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            return Ok(_accountDetailService.GetUserOffer(userId));
         }
 
         [HttpGet("getuserproductoffer")]
         public IActionResult GetOffersOnUserProducts()
         {
-            //User ID verilecek....
-            _accountDetailService.GetOffersOnUserProducts(1);
-            return Ok();
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            return Ok(_accountDetailService.GetOffersOnUserProducts(userId));
+
         }
     }
 }

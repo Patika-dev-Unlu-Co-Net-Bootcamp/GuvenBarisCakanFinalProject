@@ -164,13 +164,13 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("AccountDetails");
                 });
@@ -183,6 +183,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -191,12 +192,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Brands");
                 });
@@ -209,6 +205,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CategoryName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -217,12 +214,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Categories");
                 });
@@ -235,6 +227,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ColorName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -243,12 +236,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("Colors");
                 });
@@ -278,16 +266,13 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<double>("OfferedPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("Percent")
+                    b.Property<int>("PercentRate")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -296,7 +281,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Offers");
                 });
@@ -311,13 +296,20 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<int?>("AccountDetailId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ColorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
@@ -337,14 +329,25 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("ProductName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsingStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountDetailId");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("UsingStatusId");
 
                     b.ToTable("Products");
                 });
@@ -371,14 +374,8 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -444,15 +441,11 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsingName")
+                    b.Property<string>("UsingStatusName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("UsingStatuses");
                 });
@@ -512,30 +505,11 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                 {
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.User", "User")
                         .WithOne("AccountDetail")
-                        .HasForeignKey("UnluCoProductCatalog.Domain.Entities.AccountDetail", "UserId");
+                        .HasForeignKey("UnluCoProductCatalog.Domain.Entities.AccountDetail", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Brand", b =>
-                {
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", null)
-                        .WithMany("Brands")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Category", b =>
-                {
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Color", b =>
-                {
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", null)
-                        .WithMany("Colors")
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Offer", b =>
@@ -552,7 +526,7 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Product");
 
@@ -564,19 +538,32 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.AccountDetail", null)
                         .WithMany("Products")
                         .HasForeignKey("AccountDetailId");
+
+                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Color", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("UnluCoProductCatalog.Domain.Entities.UsingStatus", "UsingStatus")
+                        .WithMany()
+                        .HasForeignKey("UsingStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("UsingStatus");
                 });
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.User", b =>
                 {
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", null)
                         .WithMany("Users")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.UsingStatus", b =>
-                {
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", null)
-                        .WithMany("UsingStatuses")
                         .HasForeignKey("ProductId");
                 });
 
@@ -589,17 +576,9 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("Brands");
-
-                    b.Navigation("Categories");
-
-                    b.Navigation("Colors");
-
                     b.Navigation("Offers");
 
                     b.Navigation("Users");
-
-                    b.Navigation("UsingStatuses");
                 });
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.User", b =>

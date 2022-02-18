@@ -1,7 +1,10 @@
-﻿namespace UnluCoProductCatalog.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UnluCoProductCatalog.Domain.Entities
 {
     public class UsingStatus : BaseEntity
     {
-        public string UsingName { get; set; }
+        [Required]
+        public string UsingStatusName { get; set; }
     }
 }

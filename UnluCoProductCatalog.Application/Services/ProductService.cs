@@ -5,7 +5,6 @@ using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.Validations;
-using UnluCoProductCatalog.Application.Validations.OfferValidation;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -30,7 +29,7 @@ namespace UnluCoProductCatalog.Application.Services
             return _mapper.Map<IEnumerable<GetProductViewModel>>(products);
         }
 
-        public void RetractTheOffer(int productId,int userId)
+        public void RetractTheOffer(int productId,string userId)
         {
             var product = _unitOfWork.Product.GetById(productId);
 
@@ -45,7 +44,7 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotFoundExceptions("Product",productId);
         }
 
-        public void SellProduct(int productId, int userId,double price)
+        public void SellProduct(int productId, string userId,double price)
         {
             var product = _unitOfWork.Product.GetById(productId);
             if (!(product.Price > price)) return;

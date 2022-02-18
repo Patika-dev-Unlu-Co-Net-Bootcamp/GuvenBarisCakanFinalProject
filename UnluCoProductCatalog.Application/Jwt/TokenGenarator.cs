@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Domain.Jwt;
 
-namespace UnluCoProductCatalog.Application.Services
+namespace UnluCoProductCatalog.Application.Jwt
 {
     public class TokenGenarator
     {
@@ -27,12 +27,13 @@ namespace UnluCoProductCatalog.Application.Services
 
             var authClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name,user.Id)
             };
 
             foreach (var role in  userRoles)
                 if (role is not null)
                     authClaims.Add(new Claim(ClaimTypes.Role, Convert.ToString(role)));
+
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 

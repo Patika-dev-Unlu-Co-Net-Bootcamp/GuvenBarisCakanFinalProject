@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using UnluCoProductCatalog.Domain.Entities;
+﻿using UnluCoProductCatalog.Domain.Entities;
 
 namespace UnluCoProductCatalog.Application.Interfaces.Repositories
 {
-    //public interface IUserRepository : IRepositoryBase<User>
-    //{
-    //    IEnumerable<OperationClaim> GetClaims(int userId);
-    //}
+    public interface IUserRepository
+    {
+        bool Update(User user);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Linq;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
@@ -23,19 +24,24 @@ namespace UnluCoProductCatalog.Application.Services
         public IEnumerable<CategoryViewModel> GetAll()
         {
             var categories = _unitOfWork.Category.GetAll();
-            return _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
+            var result = _mapper.Map<IList<CategoryViewModel>>(categories);
+
+            return result;
         }
 
-        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
+        public IEnumerable<Product> GetProductsByCategoryId(int id)
         {
             if (id == 0)
             { 
-                var productsAll = _unitOfWork.Product.GetAll();
-                return _mapper.Map<IEnumerable<GetProductViewModel>>(productsAll);
+                var productsAll = _unitOfWork.Product.GetProductsByCategories();
+                //_mapper.Map<IList<GetProductViewModel>>(productsAll);
+                return productsAll;
             }
 
-            var productsFilter = _unitOfWork.Product.Get(p => p.CategoryId == id);
-            return _mapper.Map<IEnumerable<GetProductViewModel>>(productsFilter);
+            return null;
+
+            //var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
+            //return _mapper.Map<IList<GetProductViewModel>>(productsFilter);
 
         }
 
@@ -78,7 +84,7 @@ namespace UnluCoProductCatalog.Application.Services
             if (category is null)
                 throw new NotFoundExceptions("Category", id);
 
-            category.IsDeleted = false;
+            category.IsDeleted = true;
 
             _unitOfWork.Category.Update(category);
 

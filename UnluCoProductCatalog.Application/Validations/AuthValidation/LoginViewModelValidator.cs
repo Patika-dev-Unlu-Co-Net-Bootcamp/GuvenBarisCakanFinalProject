@@ -9,7 +9,7 @@ namespace UnluCoProductCatalog.Application.Validations.AuthValidation
         {
             RuleFor(c => c.Email).NotEmpty().WithMessage("Email address is required");
             RuleFor(c => c.Password).NotEmpty().WithMessage("Password is required");
-            RuleFor(c => c.Password).MinimumLength(8).MaximumLength(20);
+            RuleFor(c => c.Password).MinimumLength(8).MaximumLength(20).NotEmpty();
         }
     }
 }

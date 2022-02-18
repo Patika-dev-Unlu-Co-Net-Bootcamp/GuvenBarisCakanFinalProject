@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 
@@ -24,14 +25,16 @@ namespace WebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult RetractTheOffer(int productId)
         {
-            _productService.RetractTheOffer(productId, 1);
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            _productService.RetractTheOffer(productId, userId);
             return Ok();
         }
 
         [HttpPut("sellproduct/{id}")]
         public IActionResult SellProduct(int productId, double price)
         {
-            _productService.SellProduct(productId, 1, price);
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            _productService.SellProduct(productId, userId, price);
             return Ok();
         }
 

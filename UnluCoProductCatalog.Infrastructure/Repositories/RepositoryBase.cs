@@ -15,7 +15,7 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
 
         public RepositoryBase(ProductCatalogDbContext context) => _dbSet = context.Set<TEntity>();
 
-        public IEnumerable<TEntity> GetAll() => _dbSet.ToList().Where(p=>p.IsDeleted == false);
+        public IEnumerable<TEntity> GetAll() => _dbSet.ToList().Where(p => p.IsDeleted == false).ToList();
 
         public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter) => _dbSet.Where(filter).ToList().Where(p=>p.IsDeleted == false);
 

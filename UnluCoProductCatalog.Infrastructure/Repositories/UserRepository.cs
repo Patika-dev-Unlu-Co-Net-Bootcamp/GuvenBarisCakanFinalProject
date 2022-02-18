@@ -6,13 +6,18 @@ using UnluCoProductCatalog.Infrastructure.Contexts;
 
 namespace UnluCoProductCatalog.Infrastructure.Repositories
 {
-    //public class UserRepository : RepositoryBase<User>,IUserRepository
+    //public class UserRepository : IUserRepository
     //{
     //    private readonly ProductCatalogDbContext _context;
-    //    public UserRepository(ProductCatalogDbContext context) : base(context)
+
+    //    public UserRepository(ProductCatalogDbContext context)
     //    {
     //        _context = context;
     //    }
 
+    //    public bool Update(User user)
+    //    {
+    //        _context.
+    //    }
     //}
 }

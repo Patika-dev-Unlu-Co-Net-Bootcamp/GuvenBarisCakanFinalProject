@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 
 namespace UnluCoProductCatalog.Application.Services
 {
-    public class AccountDetailService
+    public class AccountDetailService :IAccountDetailService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

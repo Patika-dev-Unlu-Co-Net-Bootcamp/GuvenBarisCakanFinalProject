@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 using Microsoft.AspNetCore.Identity;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
+using UnluCoProductCatalog.Application.Jwt;
 using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.Validations.AuthValidation;
 using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
@@ -25,28 +27,31 @@ namespace UnluCoProductCatalog.Application.Services
 
         public async Task<bool> Register(RegisterViewModel registerUserModel)
         {
-
             var validator = new RegisterViewModelValidator();
 
             await validator.ValidateAsync(registerUserModel);
 
             var user = new User
             {
-                FirstName = registerUserModel.FirstName,
-                LastName = registerUserModel.LastName,
+                UserName = registerUserModel.UserName,
                 Email = registerUserModel.Email,
             };
 
             var emailCheckUser = await _userManager.FindByEmailAsync(registerUserModel.Email);
 
-            if (emailCheckUser is not null) throw new InvalidOperationException("Email already exists");
+            //if (emailCheckUser is null) throw new InvalidOperationException("Email already exists");
 
             var result = await _userManager.CreateAsync(user, registerUserModel.Password);
 
-            if (!result.Succeeded) return false;
-            await _userManager.AddToRoleAsync(user, "Member");
-            await _signInManager.SignInAsync(user, false);
-            return true;
+            Console.WriteLine(result.Errors);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _signInManager.SignInAsync(user, false);
+                return true;
+            }
+            throw new InvalidOperationException("User registration is not successful");
+
         }
 
         public async Task<Token> Login(LoginViewModel loginUserModel)
@@ -55,22 +60,33 @@ namespace UnluCoProductCatalog.Application.Services
 
             await validator.ValidateAsync(loginUserModel);
 
-            if (loginUserModel.Email is null || loginUserModel.Password is null)
-            {
-                throw new InvalidOperationException("Email or Password can not be null");
-            }
-
             var userFind = await _userManager.FindByEmailAsync(loginUserModel.Email);
-            if (userFind is null) throw new InvalidOperationException("User email is not correct");
+
+            if (userFind is null)
+                throw new InvalidOperationException("Email is not correct");
 
             var result = await _userManager.CheckPasswordAsync(userFind, loginUserModel.Password);
 
             if (!result)
+            {
+                await AccessRightControl(userFind);
                 throw new InvalidOperationException("Password is not correct");
-
+            }
+            
             var userRoles = await _userManager.GetRolesAsync(userFind);
             return _tokenGenarator.CreateToken(userFind, userRoles);
+        }
 
+        private async Task AccessRightControl(User userFind)
+        {
+            userFind.AccessFailedCount += 1;
+            await _userManager.UpdateAsync(userFind);
+            if (userFind.AccessFailedCount == 3)
+            {
+                userFind.LockoutEnabled = true;
+                await _userManager.UpdateAsync(userFind);
+                throw new InvalidOperationException("User blocked");
+            }
         }
 
         public bool UserExists(string email)

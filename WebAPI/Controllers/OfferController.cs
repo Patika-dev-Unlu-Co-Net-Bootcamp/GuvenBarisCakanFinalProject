@@ -15,12 +15,10 @@ namespace WebAPI.Controllers
             _offerService = offerService;
         }
 
-
         [HttpPost]
         public IActionResult Create(CreateOfferViewModel offer)
         {
             _offerService.Create(offer);
-
             return Ok();
         }
 
