@@ -18,21 +18,24 @@ namespace UnluCoProductCatalog.Application.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<GetOfferQueryViewModel> GetUserOffer(string userId)
+        public IEnumerable<GetOfferUserViewModel> GetUserOffers(string userId)
         {
-            var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
-                .SelectMany(o => o.Offers).Where(o => o.IsSold == false);
+            //var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
+            //    .SelectMany(o => o.Offers).Where(o => o.IsSold == false);
+            //_mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
 
-            return _mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
+            return _unitOfWork.Offer.GetUserOffers(userId);
         }
 
-        public IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(string userId)
+        public IEnumerable<GetOfferUserViewModel> GetOffersOnUserProducts(string userId)
         {
+            //IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(string userId);
+            //var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
+            //    .SelectMany(x => x.Products).SelectMany(x => x.Offers).Where(o => o.IsSold == false); ;
 
-            var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
-                .SelectMany(x => x.Products).SelectMany(x => x.Offers).Where(o => o.IsSold == false); ;
+            //return _mapper.Map<IEnumerable<GetOfferUserViewModel>>(offers);
 
-            return _mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
+            return _unitOfWork.Offer.GetOffersOnUserProducts(userId);
         }
     }
 }

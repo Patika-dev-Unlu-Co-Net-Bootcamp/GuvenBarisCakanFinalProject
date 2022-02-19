@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using UnluCoProductCatalog.Application.Interfaces.Repositories;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
@@ -17,20 +16,57 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
             _context = context;
         }
 
-        public IEnumerable<Product> GetProductsByCategoryId(int id)
+        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
         {
-            var result = _context.Products.Include(c => c.Brand).Include(c => c.Color)
-                .Include(u => u.Users).Include(u => u.UsingStatus).Where(c=>c.CategoryId == id);
+            var query = from p in _context.Products
+                join brand in _context.Brands on p.Brand.Id equals brand.Id
+                join color in _context.Colors on p.Color.Id equals color.Id
+                join offer in _context.Offers on p.OfferId equals offer.Id into of from offer in of.DefaultIfEmpty()
+                join status in _context.UsingStatuses on p.UsingStatusId equals status.Id
+                join category in _context.Categories on p.CategoryId equals category.Id
+                where p.CategoryId == category.Id & offer.IsDeleted == false
+                select new GetProductViewModel
+                {
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    IsOfferable = p.IsOfferable,
+                    CategoryName = category.CategoryName,
+                    ColorName = color.ColorName,
+                    BrandName = brand.BrandName,
+                    OfferPrice = offer.OfferedPrice,
+                    UsingStatus = status.UsingStatusName,
+                    Price = p.Price,
+                    Image = p.Image
+                };
 
-            return result.ToList();
+            return query.ToList();
         }
 
-        public IEnumerable<Product> GetProductsByCategories()
+        public IEnumerable<GetProductViewModel> GetProducts()
         {
-            var result = _context.Products.Include(c => c.Brand).Include(c => c.Color)
-                .Include(u => u.Offers).Include(u => u.UsingStatus);
 
-            return result.ToList();
+            var query = from p in _context.Products
+                join brand in _context.Brands on p.Brand.Id equals brand.Id
+                join color in _context.Colors on p.Color.Id equals color.Id
+                join offer in _context.Offers on p.OfferId equals offer.Id into of
+                from offer in of.DefaultIfEmpty()
+                join status in _context.UsingStatuses on p.UsingStatusId equals status.Id
+                join category in _context.Categories on p.CategoryId equals category.Id
+                where offer.IsDeleted == false
+                select new GetProductViewModel
+                {
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    IsOfferable = p.IsOfferable,
+                    CategoryName = category.CategoryName,
+                    ColorName = color.ColorName,
+                    BrandName = brand.BrandName,
+                    OfferPrice = offer.OfferedPrice,
+                    UsingStatus = status.UsingStatusName,
+                    Price = p.Price,
+                    Image = p.Image
+                };
+            return query.ToList();
         }
     }
 }

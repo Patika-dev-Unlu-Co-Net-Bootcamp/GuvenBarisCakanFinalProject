@@ -14,6 +14,7 @@ namespace UnluCoProductCatalog.Domain.Entities
         public int CategoryId { get; set; }
         public  Color Color { get; set; }
         public  Brand Brand { get; set; }
+        public int? OfferId { get; set; }
         public ICollection<Offer> Offers { get; set; }
 
         [Required]

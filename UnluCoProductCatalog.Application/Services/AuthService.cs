@@ -39,7 +39,7 @@ namespace UnluCoProductCatalog.Application.Services
 
             var emailCheckUser = await _userManager.FindByEmailAsync(registerUserModel.Email);
 
-            //if (emailCheckUser is null) throw new InvalidOperationException("Email already exists");
+            if (emailCheckUser is null) throw new InvalidOperationException("Email already exists");
 
             var result = await _userManager.CreateAsync(user, registerUserModel.Password);
 

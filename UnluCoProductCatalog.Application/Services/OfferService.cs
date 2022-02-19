@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
@@ -22,11 +22,10 @@ namespace UnluCoProductCatalog.Application.Services
             _mapper = mapper;
         }
 
-
-        public async Task Create(CreateOfferViewModel entity)
+        public void  Create(CreateOfferViewModel entity,string userId)
         {
             var validator = new CreateOfferViewModelValidator();
-            await validator.ValidateAsync(entity);
+            validator.ValidateAndThrow(entity);
 
             var product =  _unitOfWork.Product.GetById(entity.ProductId);
 
@@ -35,16 +34,15 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new InvalidOperationException("Product status is not offered");
             }
 
- 
-            var offeredPrice = (product.Price * entity.Percent) / 100;
+            var offeredPrice = (product.Price * entity.PercentRate) / 100;
 
-            if (entity.OfferPrice > offeredPrice)
+            if (entity.OfferedPrice < offeredPrice)
             {
-              throw new InvalidOperationException("Offer is much higher to for price");
+              throw new InvalidOperationException("Offer is much lower to for price");
             }
-            
+
             var offer = _mapper.Map<Offer>(entity);
-            offer.OfferedPrice = offeredPrice;
+            offer.UserId = userId;
 
             _unitOfWork.Offer.Create(offer);
 
@@ -61,7 +59,7 @@ namespace UnluCoProductCatalog.Application.Services
             if (offer is null)
                 throw new NotFoundExceptions("Offer", id);
 
-            offer.IsDeleted = false;
+            offer.IsDeleted = true;
 
             _unitOfWork.Offer.Update(offer);
             
@@ -69,20 +67,21 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotSavedExceptions("Offer");
         }
 
-        public async Task Update(UpdateOfferViewModel entity,int id)
+        public void Update(UpdateOfferViewModel entity,string userId,int id)
         {
             var validator = new UpdateOfferViewModelValidator();
-            await validator.ValidateAsync(entity);
+            validator.ValidateAndThrow(entity);
 
-            //var offer =  _unitOfWork.Offer.GetById(id);
-            var offer = _mapper.Map<Offer>(entity);
+            var offer = _unitOfWork.Offer.GetById(id);
 
             if (offer is null)
             {
                 throw new NotFoundExceptions("Offer", id);
             }
-            
-            _unitOfWork.Offer.Update(offer);
+
+            var updateOffer = _mapper.Map<Offer>(entity);
+
+            _unitOfWork.Offer.Update(updateOffer);
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Offer");
 

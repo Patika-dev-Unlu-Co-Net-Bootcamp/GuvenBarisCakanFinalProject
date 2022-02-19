@@ -7,6 +7,6 @@ namespace UnluCoProductCatalog.Domain.Entities
     {
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
-        public AccountDetail AccountDetail { get; set; }
+        
     }
 }

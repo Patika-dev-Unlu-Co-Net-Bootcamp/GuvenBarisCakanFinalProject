@@ -29,19 +29,16 @@ namespace UnluCoProductCatalog.Application.Services
             return result;
         }
 
-        public IEnumerable<Product> GetProductsByCategoryId(int id)
+        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
         {
             if (id == 0)
             { 
-                var productsAll = _unitOfWork.Product.GetProductsByCategories();
-                //_mapper.Map<IList<GetProductViewModel>>(productsAll);
+                var productsAll = _unitOfWork.Product.GetProducts();
                 return productsAll;
             }
 
-            return null;
-
-            //var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
-            //return _mapper.Map<IList<GetProductViewModel>>(productsFilter);
+            var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
+            return productsFilter;
 
         }
 

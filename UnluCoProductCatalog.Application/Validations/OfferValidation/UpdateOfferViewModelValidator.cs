@@ -12,9 +12,8 @@ namespace UnluCoProductCatalog.Application.Validations.OfferValidation
     {
         public UpdateOfferViewModelValidator()
         {
-            RuleFor(o => o.UserId).GreaterThan(0);
             RuleFor(o => o.ProductId).GreaterThan(0);
-            RuleFor(o => o.OfferPrice).GreaterThan(0);
+            RuleFor(o => o.OfferedPrice).GreaterThan(0);
         }
     }
 }

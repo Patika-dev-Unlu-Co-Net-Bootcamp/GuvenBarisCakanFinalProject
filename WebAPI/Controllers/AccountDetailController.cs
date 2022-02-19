@@ -18,14 +18,18 @@ namespace WebAPI.Controllers
         [HttpGet("getuseroffers")]
         public IActionResult GetUserOffer()
         {
-            var userId = User.FindFirstValue(ClaimTypes.Name);
-            return Ok(_accountDetailService.GetUserOffer(userId));
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+
+            return Ok(_accountDetailService.GetUserOffers(userId));
         }
 
         [HttpGet("getuserproductoffer")]
         public IActionResult GetOffersOnUserProducts()
         {
-            var userId = User.FindFirstValue(ClaimTypes.Name);
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
             return Ok(_accountDetailService.GetOffersOnUserProducts(userId));
 
         }

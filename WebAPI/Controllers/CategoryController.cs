@@ -21,8 +21,8 @@ namespace WebAPI.Controllers
             return Ok(_categoryService.GetAll());
         }
 
-        [HttpGet("categoryId/{id}")]
-        public IActionResult GetProductByCategory(int id)
+        [HttpGet("categoryId")]
+        public IActionResult GetProductByCategory([FromQuery] int id = 0)
         {
             return Ok(_categoryService.GetProductsByCategoryId(id));
         }

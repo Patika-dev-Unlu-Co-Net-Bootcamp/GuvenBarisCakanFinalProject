@@ -6,9 +6,9 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
 {
     public interface IOfferService
     {
-        Task Create(CreateOfferViewModel entity);
+        void Create(CreateOfferViewModel entity,string userId);
         void Delete(int entity);
-        void OfferApprove( int offerId);
-        Task Update(UpdateOfferViewModel entity,int id);
+        void OfferApprove(int offerId);
+        void Update(UpdateOfferViewModel entity,string userId,int id);
     }
 }

@@ -5,7 +5,8 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
 {
     public interface IAccountDetailService
     {
-        IEnumerable<GetOfferQueryViewModel> GetUserOffer(string userId);
-        IEnumerable<GetOfferQueryViewModel> GetOffersOnUserProducts(string userId);
+        IEnumerable<GetOfferUserViewModel> GetUserOffers(string userId);
+        IEnumerable<GetOfferUserViewModel> GetOffersOnUserProducts(string userId);
     }
 }
+

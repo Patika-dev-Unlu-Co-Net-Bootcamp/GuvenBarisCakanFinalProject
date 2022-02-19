@@ -2,7 +2,7 @@
 {
     public class Offer : BaseEntity
     {
-        public int PercentRate { get; set; } = 40;
+        public int PercentRate { get; set; } = 30;
         public bool IsApproved { get; set; }
         public bool IsSold { get; set; } = false;
         public  double OfferedPrice { get; set; }
@@ -12,3 +12,4 @@
         public Product Product { get; set; }
     }
 }
+

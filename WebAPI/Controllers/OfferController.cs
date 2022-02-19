@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 
@@ -18,12 +20,15 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Create(CreateOfferViewModel offer)
         {
-            _offerService.Create(offer);
-            return Ok();
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            _offerService.Create(offer,userId);
+            return StatusCode((int)HttpStatusCode.Created);
+
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Create(int id)
+        public IActionResult Delete(int id)
         {
             _offerService.Delete(id);
 
@@ -31,19 +36,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Create([FromBody] UpdateOfferViewModel model,int id)
+        public IActionResult Update([FromBody] UpdateOfferViewModel model,int id)
         {
-            _offerService.Update(model,id);
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            _offerService.Update(model, userId,id);
             return Ok();
         }
 
-        [HttpPut("offeraprove/{id}")]
+        [HttpPatch("offeraprove/{id}")]
         public IActionResult OfferAprove(int id)
         {
             _offerService.OfferApprove(id);
             return Ok();
         }
-
     }
 }
 

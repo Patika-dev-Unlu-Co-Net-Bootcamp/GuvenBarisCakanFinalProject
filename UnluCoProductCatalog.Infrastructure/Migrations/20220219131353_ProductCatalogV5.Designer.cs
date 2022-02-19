@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UnluCoProductCatalog.Infrastructure.Contexts;
 
 namespace UnluCoProductCatalog.Infrastructure.Migrations
 {
     [DbContext(typeof(ProductCatalogDbContext))]
-    partial class ProductCatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220219131353_ProductCatalogV5")]
+    partial class ProductCatalogV5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,22 +165,14 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OfferId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OfferId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("AccountDetails");
                 });
@@ -256,6 +250,9 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AccountDetailId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -282,6 +279,8 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountDetailId");
+
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
@@ -295,6 +294,9 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccountDetailId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
@@ -343,6 +345,8 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountDetailId");
 
                     b.HasIndex("BrandId");
 
@@ -504,27 +508,21 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.AccountDetail", b =>
                 {
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId");
-
-                    b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Offer");
-
-                    b.Navigation("Product");
+                        .WithOne("AccountDetail")
+                        .HasForeignKey("UnluCoProductCatalog.Domain.Entities.AccountDetail", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Offer", b =>
                 {
+                    b.HasOne("UnluCoProductCatalog.Domain.Entities.AccountDetail", null)
+                        .WithMany("Offers")
+                        .HasForeignKey("AccountDetailId");
+
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.Product", "Product")
                         .WithMany("Offers")
                         .HasForeignKey("ProductId")
@@ -542,6 +540,10 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
 
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Product", b =>
                 {
+                    b.HasOne("UnluCoProductCatalog.Domain.Entities.AccountDetail", null)
+                        .WithMany("Products")
+                        .HasForeignKey("AccountDetailId");
+
                     b.HasOne("UnluCoProductCatalog.Domain.Entities.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId");
@@ -570,11 +572,23 @@ namespace UnluCoProductCatalog.Infrastructure.Migrations
                         .HasForeignKey("ProductId");
                 });
 
+            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.AccountDetail", b =>
+                {
+                    b.Navigation("Offers");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.Product", b =>
                 {
                     b.Navigation("Offers");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("UnluCoProductCatalog.Domain.Entities.User", b =>
+                {
+                    b.Navigation("AccountDetail");
                 });
 #pragma warning restore 612, 618
         }
