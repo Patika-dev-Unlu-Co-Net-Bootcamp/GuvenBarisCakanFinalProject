@@ -22,7 +22,7 @@ namespace UnluCoProductCatalog.Application.Services
             _mapper = mapper;
         }
 
-        public void  Create(CreateOfferViewModel entity,string userId)
+        public void Create(CreateOfferViewModel entity,string userId)
         {
             var validator = new CreateOfferViewModelValidator();
             validator.ValidateAndThrow(entity);
@@ -78,10 +78,13 @@ namespace UnluCoProductCatalog.Application.Services
             {
                 throw new NotFoundExceptions("Offer", id);
             }
+            
+            offer.PercentRate = offer.PercentRate != default ? entity.PercentRate : offer.PercentRate;
+            offer.ProductId = offer.ProductId != default ? entity.ProductId : offer.ProductId;
+            offer.OfferedPrice = offer.OfferedPrice != default ? entity.OfferedPrice : offer.OfferedPrice;
+            offer.IsApproved = offer.IsApproved;
 
-            var updateOffer = _mapper.Map<Offer>(entity);
-
-            _unitOfWork.Offer.Update(updateOffer);
+            _unitOfWork.Offer.Update(offer);
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Offer");
 
@@ -90,6 +93,13 @@ namespace UnluCoProductCatalog.Application.Services
         public void OfferApprove(int offerId)
         {
             var offer = _unitOfWork.Offer.GetById(offerId);
+
+            if (offer is null)
+            {
+                throw new NotFoundExceptions("Offer", offerId);
+            }
+
+
             if (offer.IsApproved)
             {
                 offer.IsSold = true;

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using FluentValidation;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
-using UnluCoProductCatalog.Application.Validations;
+using UnluCoProductCatalog.Application.Validations.UsingStatusValidation;
 using UnluCoProductCatalog.Application.ViewModels.UsingStatusViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -24,24 +25,31 @@ namespace UnluCoProductCatalog.Application.Services
             return _mapper.Map<ICollection<UsingStatusViewModel>>(_unitOfWork.UsingStatus.GetAll());
         }
 
-        public void Update(UsingStatusViewModel entity)
+        public void Update(CommandUsingStatusViewModel entity,int id)
         {
             var validator = new UsingStatusViewModelValidator();
-            validator.Validate(entity);
+            validator.ValidateAndThrow(entity);
 
-            var usingStatus = _mapper.Map<UsingStatus>(entity);
+            var usingStatus = _unitOfWork.UsingStatus.GetById(id);
+            if (usingStatus is null)
+                throw new NotFoundExceptions("UsingStatus", id);
+
+            usingStatus.UsingStatusName = usingStatus.UsingStatusName != default ? entity.UsingStatusName : usingStatus.UsingStatusName;
             _unitOfWork.UsingStatus.Update(usingStatus);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("UsingStatus");
         }
 
-        public void Create(UsingStatusViewModel entity)
+        public void Create(CommandUsingStatusViewModel entity)
         {
             var validator = new UsingStatusViewModelValidator();
-            validator.Validate(entity);
+            validator.ValidateAndThrow( entity);
 
             var usingStatus = _mapper.Map<UsingStatus>(entity);
+
             _unitOfWork.UsingStatus.Create(usingStatus);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("UsingStatus");
         }
 
         public void Delete(int id)
@@ -54,7 +62,8 @@ namespace UnluCoProductCatalog.Application.Services
 
             usingStatus.IsDeleted = true;
             _unitOfWork.UsingStatus.Update(usingStatus);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("UsingStatus");
         }
     }
 }

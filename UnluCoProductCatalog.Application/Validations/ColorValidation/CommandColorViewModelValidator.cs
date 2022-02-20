@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using UnluCoProductCatalog.Application.ViewModels.ColorViewModels;
 
-namespace UnluCoProductCatalog.Application.Validations
+namespace UnluCoProductCatalog.Application.Validations.ColorValidation
 {
-    public class ColorViewModelValidator : AbstractValidator<ColorViewModel>
+    public class CommandColorViewModelValidator : AbstractValidator<CommandColorViewModel>
     {
-        public ColorViewModelValidator()
+        public CommandColorViewModelValidator()
         {
             RuleFor(c => c.ColorName).NotEmpty().WithMessage("Color name is required");
         }

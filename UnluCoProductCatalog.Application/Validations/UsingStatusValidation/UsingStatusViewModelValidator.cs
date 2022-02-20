@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using UnluCoProductCatalog.Application.ViewModels.UsingStatusViewModels;
 
-namespace UnluCoProductCatalog.Application.Validations
+namespace UnluCoProductCatalog.Application.Validations.UsingStatusValidation
 {
-    public class UsingStatusViewModelValidator : AbstractValidator<UsingStatusViewModel>
+    public class UsingStatusViewModelValidator : AbstractValidator<CommandUsingStatusViewModel>
     {
         public UsingStatusViewModelValidator()
         {

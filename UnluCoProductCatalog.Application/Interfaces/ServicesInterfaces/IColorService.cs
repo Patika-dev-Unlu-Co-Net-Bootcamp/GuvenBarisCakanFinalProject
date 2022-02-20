@@ -7,8 +7,8 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     public interface IColorService
     {
         ICollection<ColorViewModel> GetAll();
-        void Update(ColorViewModel entity);
-        void Create(ColorViewModel entity);
+        void Update(CommandColorViewModel entity,int id);
+        void Create(CommandColorViewModel entity);
         void Delete(int id);
     }
 }

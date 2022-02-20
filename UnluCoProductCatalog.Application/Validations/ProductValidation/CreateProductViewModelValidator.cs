@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 
-namespace UnluCoProductCatalog.Application.Validations
+namespace UnluCoProductCatalog.Application.Validations.ProductValidation
 {
     public class CreateProductViewModelValidator : AbstractValidator<CreateProductViewModel>
     {

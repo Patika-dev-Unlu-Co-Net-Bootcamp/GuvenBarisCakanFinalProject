@@ -28,14 +28,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CategoryViewModel category)
+        public IActionResult Create([FromBody] CommandCategoryViewModel category)
         {
             _categoryService.Create(category);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromBody] CategoryViewModel model,int id)
+        public IActionResult Update([FromBody] CommandCategoryViewModel model,int id)
         {
             _categoryService.Update(model,id);
             return Ok();

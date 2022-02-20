@@ -5,7 +5,7 @@ using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     [ApiController]
     public class AuthController : ControllerBase
     {

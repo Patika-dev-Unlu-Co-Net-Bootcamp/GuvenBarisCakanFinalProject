@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Xml.XPath;
 using Microsoft.AspNetCore.Identity;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Jwt;
-using UnluCoProductCatalog.Application.Validations;
 using UnluCoProductCatalog.Application.Validations.AuthValidation;
 using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
 using UnluCoProductCatalog.Domain.Entities;
@@ -87,16 +85,6 @@ namespace UnluCoProductCatalog.Application.Services
                 await _userManager.UpdateAsync(userFind);
                 throw new InvalidOperationException("User blocked");
             }
-        }
-
-        public bool UserExists(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Token CreateToken(User user)
-        {
-            throw new NotImplementedException();
         }
     }
 }

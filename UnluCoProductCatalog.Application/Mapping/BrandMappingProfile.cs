@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using UnluCoProductCatalog.Application.ViewModels.BrandViewModels;
-using UnluCoProductCatalog.Application.ViewModels.UsingStatusViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
 namespace UnluCoProductCatalog.Application.Mapping
@@ -15,14 +9,7 @@ namespace UnluCoProductCatalog.Application.Mapping
         public BrandMappingProfile()
         {
             CreateMap<BrandViewModel, Brand>().ReverseMap();
-        }
-    }
-
-    public class UsingStatusMappingProfile : Profile
-    {
-        public UsingStatusMappingProfile()
-        {
-            CreateMap<UsingStatusViewModel, UsingStatus>().ReverseMap();
+            CreateMap<CommandBrandViewModel, Brand>().ReverseMap();
         }
     }
 }

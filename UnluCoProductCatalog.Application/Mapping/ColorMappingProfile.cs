@@ -9,6 +9,7 @@ namespace UnluCoProductCatalog.Application.Mapping
         public ColorMappingProfile()
         {
             CreateMap<ColorViewModel, Color>().ReverseMap();
+            CreateMap<Color, CommandColorViewModel>().ReverseMap();
         }
     }
 }

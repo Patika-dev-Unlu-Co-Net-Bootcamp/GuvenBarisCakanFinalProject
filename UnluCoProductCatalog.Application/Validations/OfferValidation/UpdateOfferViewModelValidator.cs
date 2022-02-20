@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 
 namespace UnluCoProductCatalog.Application.Validations.OfferValidation
@@ -14,6 +9,7 @@ namespace UnluCoProductCatalog.Application.Validations.OfferValidation
         {
             RuleFor(o => o.ProductId).GreaterThan(0);
             RuleFor(o => o.OfferedPrice).GreaterThan(0);
+            RuleFor(o => o.PercentRate).GreaterThan(0);
         }
     }
 }

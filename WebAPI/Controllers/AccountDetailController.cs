@@ -4,7 +4,7 @@ using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     [ApiController]
     public class AccountDetailController : ControllerBase
     {

@@ -6,8 +6,8 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     public interface IBrandService
     {
         ICollection<BrandViewModel> GetAll();
-        void Update(BrandViewModel entity);
-        void Create(BrandViewModel entity);
+        void Update(CommandBrandViewModel entity,int id);
+        void Create(CommandBrandViewModel entity);
         void Delete(int id);
     }
 

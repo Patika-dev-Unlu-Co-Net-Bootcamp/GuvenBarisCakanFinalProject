@@ -5,7 +5,7 @@ using FluentValidation;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
-using UnluCoProductCatalog.Application.Validations;
+using UnluCoProductCatalog.Application.Validations.ProductValidation;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -33,6 +33,11 @@ namespace UnluCoProductCatalog.Application.Services
         public void RetractTheOffer(int offerId)
         {
             var offer = _unitOfWork.Offer.GetById(offerId);
+
+            if (offer is null)
+            {
+                throw new NotFoundExceptions("Offer", offerId);
+            }
 
             offer.IsDeleted = true;
 
@@ -95,6 +100,10 @@ namespace UnluCoProductCatalog.Application.Services
         public void UpdateIsOfferable(int id)
         {
             var product = _unitOfWork.Product.GetById(id);
+
+            if (product is null)
+                throw new NotFoundExceptions("Product", id);
+
             product.IsOfferable = true;
             _unitOfWork.Product.Update(product);
             if (!_unitOfWork.SaveChanges())

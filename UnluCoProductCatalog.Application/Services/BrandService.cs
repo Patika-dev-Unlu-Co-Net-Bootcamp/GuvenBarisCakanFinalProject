@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using FluentValidation;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.Validations;
+using UnluCoProductCatalog.Application.Validations.BrandValidation;
 using UnluCoProductCatalog.Application.ViewModels.BrandViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
@@ -25,36 +27,46 @@ namespace UnluCoProductCatalog.Application.Services
             return _mapper.Map<ICollection<BrandViewModel>>(_unitOfWork.Brand.GetAll());
         }
 
-        public void Update(BrandViewModel entity)
+        public void Update(CommandBrandViewModel entity,int id)
         {
-            var validator = new BrandViewModelValidator();
-            validator.Validate(entity);
-            var brand =_mapper.Map<Brand>(entity);
+            var validator = new CommandBrandViewModelValidator();
+            validator.ValidateAndThrow(entity);
+
+            var brand = _unitOfWork.Brand.GetById(id);
+            if (brand is null)
+            {
+                throw new NotFoundExceptions("Brand", id);
+            }
+
+            brand.BrandName = brand.BrandName != default ? entity.BrandName : brand.BrandName;
             _unitOfWork.Brand.Update(brand);
-            _unitOfWork.SaveChanges();
+
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("Brand");
         }
 
-        public void Create(BrandViewModel entity)
+        public void Create(CommandBrandViewModel entity)
         {
-            var validator = new BrandViewModelValidator();
-            validator.Validate(entity);
+            var validator = new CommandBrandViewModelValidator();
+            validator.ValidateAndThrow(entity);
             
+
             var brand = _mapper.Map<Brand>(entity);
             _unitOfWork.Brand.Create(brand);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("Brand");
         }
 
         public void Delete(int id)
         {
             var brand =  _unitOfWork.Brand.GetById(id);
             if (brand is null)
-            {
                 throw new NotFoundExceptions("Brand", id);
-            }
 
             brand.IsDeleted = true;
             _unitOfWork.Brand.Update(brand);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+                throw new NotSavedExceptions("Brand");
         }
     }
 }

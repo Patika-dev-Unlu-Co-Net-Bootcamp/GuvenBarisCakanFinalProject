@@ -1,5 +1,4 @@
-﻿using System.Data;
-using FluentValidation;
+﻿using FluentValidation;
 using UnluCoProductCatalog.Application.ViewModels.OfferViewModels;
 
 namespace UnluCoProductCatalog.Application.Validations.OfferValidation

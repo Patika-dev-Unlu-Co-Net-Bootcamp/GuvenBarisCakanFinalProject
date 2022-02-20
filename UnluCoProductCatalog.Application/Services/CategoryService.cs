@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using FluentValidation;
 using System.Collections.Generic;
-using System.Linq;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
-using UnluCoProductCatalog.Application.Validations;
+using UnluCoProductCatalog.Application.Validations.CategoryValidation;
 using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 using UnluCoProductCatalog.Application.ViewModels.ProductViewModels;
 using UnluCoProductCatalog.Domain.Entities;
@@ -37,15 +38,23 @@ namespace UnluCoProductCatalog.Application.Services
                 return productsAll;
             }
 
+            var checkCategoryId = _unitOfWork.Category.GetById(id);
+            if (checkCategoryId is null)
+            {
+                throw new NotFoundExceptions("Category", id);
+            }
             var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
+            if (productsFilter is null)
+            {
+                throw new NotFoundExceptions("Product");
+            }
             return productsFilter;
-
         }
 
-        public void Create(CategoryViewModel entity)
+        public void Create(CommandCategoryViewModel entity)
         {
-            var validator = new CategoryViewModelValidator();
-            validator.Validate(entity);
+            var validator = new CommandCategoryViewModelValidator();
+            validator.ValidateAndThrow(entity);
 
             var category =  _mapper.Map<Category>(entity);
 
@@ -55,10 +64,10 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotSavedExceptions("Category");
         }
 
-        public void Update(CategoryViewModel entity,int id)
+        public void Update(CommandCategoryViewModel entity,int id)
         {
-            var validator = new CategoryViewModelValidator();
-            validator.Validate(entity);
+            var validator = new CommandCategoryViewModelValidator();
+            validator.ValidateAndThrow(entity);
 
             var category = _unitOfWork.Category.GetById(id);
 
@@ -71,7 +80,6 @@ namespace UnluCoProductCatalog.Application.Services
 
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Category");
-
         }
 
         public void Delete(int id)
@@ -87,6 +95,25 @@ namespace UnluCoProductCatalog.Application.Services
 
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Category");
+        }
+
+        private static void DEneme()
+        {
+            string str = "Merhaba";
+            int sayi1 = 0;
+            int sayi2 = 0;
+            foreach (var char1 in str)
+            {
+                if (char1 == 'A')
+                {
+                    sayi1 += 1;
+                }
+                
+                sayi2 += 1;
+
+            }
+
+            int result = Math.Abs(sayi1 - sayi2);
         }
     }
 }
