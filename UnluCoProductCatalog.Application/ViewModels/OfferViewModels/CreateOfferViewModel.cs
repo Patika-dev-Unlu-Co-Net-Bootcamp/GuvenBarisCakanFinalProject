@@ -1,6 +1,4 @@
-﻿using System;
-
-
+﻿
 namespace UnluCoProductCatalog.Application.ViewModels.OfferViewModels
 {
     public class CreateOfferViewModel

@@ -24,8 +24,14 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
                 where offer.UserId == userId & offer.IsDeleted == false
                 select new GetOfferUserViewModel()
                 {
+                    Id = offer.Id,
+                    OfferedPrice = offer.OfferedPrice,
+                    IsApproved = offer.IsApproved,
+                    CreatedTime = offer.CreatedDate,
+                    PercentRate = offer.PercentRate,
                     Product = new GetProductUserViewModel
                     {
+                        Id = p.Id,
                         ProductName = p.ProductName,
                         Description = p.Description,
                         ColorName = p.Color.ColorName,
@@ -34,10 +40,6 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
                         Image = p.Image
                     },
 
-                    OfferedPrice = offer.OfferedPrice,
-                    IsApproved = offer.IsApproved,
-                    CreatedTime = offer.CreatedDate,
-                    PercentRate = offer.PercentRate,
                 };
             return result.ToList();
         }
@@ -51,8 +53,10 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
                 where u.Id == userId & o.IsDeleted == false & u.IsDeleted == false
                 select new GetOfferUserViewModel
                 {
+                    Id = o.Id,
                     Product = new GetProductUserViewModel
                     {
+                        Id = p.Id,
                         ProductName = p.ProductName,
                         Description = p.Description,
                         ColorName = p.Color.ColorName,

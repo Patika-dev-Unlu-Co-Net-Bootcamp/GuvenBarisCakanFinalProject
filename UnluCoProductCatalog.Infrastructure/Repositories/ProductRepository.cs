@@ -21,19 +21,18 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
             var query = from p in _context.Products
                 join brand in _context.Brands on p.Brand.Id equals brand.Id
                 join color in _context.Colors on p.Color.Id equals color.Id
-                join offer in _context.Offers on p.OfferId equals offer.Id into of from offer in of.DefaultIfEmpty()
                 join status in _context.UsingStatuses on p.UsingStatusId equals status.Id
                 join category in _context.Categories on p.CategoryId equals category.Id
-                where p.CategoryId == category.Id & offer.IsDeleted == false
+                where p.CategoryId == id && p.IsDeleted == false
                 select new GetProductViewModel
                 {
+                    Id = p.Id,
                     ProductName = p.ProductName,
                     Description = p.Description,
                     IsOfferable = p.IsOfferable,
                     CategoryName = category.CategoryName,
                     ColorName = color.ColorName,
                     BrandName = brand.BrandName,
-                    OfferPrice = offer.OfferedPrice,
                     UsingStatus = status.UsingStatusName,
                     Price = p.Price,
                     Image = p.Image
@@ -48,20 +47,18 @@ namespace UnluCoProductCatalog.Infrastructure.Repositories
             var query = from p in _context.Products
                 join brand in _context.Brands on p.Brand.Id equals brand.Id
                 join color in _context.Colors on p.Color.Id equals color.Id
-                join offer in _context.Offers on p.OfferId equals offer.Id into of
-                from offer in of.DefaultIfEmpty()
                 join status in _context.UsingStatuses on p.UsingStatusId equals status.Id
                 join category in _context.Categories on p.CategoryId equals category.Id
-                where offer.IsDeleted == false
+                where p.IsDeleted == false
                 select new GetProductViewModel
                 {
+                    Id = p.Id,
                     ProductName = p.ProductName,
                     Description = p.Description,
                     IsOfferable = p.IsOfferable,
                     CategoryName = category.CategoryName,
                     ColorName = color.ColorName,
                     BrandName = brand.BrandName,
-                    OfferPrice = offer.OfferedPrice,
                     UsingStatus = status.UsingStatusName,
                     Price = p.Price,
                     Image = p.Image

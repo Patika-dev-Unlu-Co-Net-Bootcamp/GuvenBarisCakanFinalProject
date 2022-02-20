@@ -66,7 +66,7 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotFoundExceptions("Category", id);
 
             category.CategoryName = category.CategoryName != default ? entity.CategoryName : category.CategoryName;
-
+            
             _unitOfWork.Category.Update(category);
 
             if (!_unitOfWork.SaveChanges())

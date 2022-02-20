@@ -14,14 +14,13 @@ namespace UnluCoProductCatalog.Domain.Entities
         public int CategoryId { get; set; }
         public  Color Color { get; set; }
         public  Brand Brand { get; set; }
-        public int? OfferId { get; set; }
         public ICollection<Offer> Offers { get; set; }
 
         [Required]
         public string UserId { get; set; }
         public  ICollection<User> Users { get; set; }
 
-        [Required] 
+        [Required]
         public int UsingStatusId { get; set; }
         public UsingStatus UsingStatus { get; set; }
 

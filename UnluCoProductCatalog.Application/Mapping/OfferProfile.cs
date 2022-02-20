@@ -8,7 +8,6 @@ namespace UnluCoProductCatalog.Application.Mapping
     {
         public OfferProfile()
         {
-            CreateMap<GetOfferQueryViewModel, Offer>().ReverseMap();
             CreateMap<CreateOfferViewModel, Offer>();
             CreateMap<UpdateOfferViewModel, Offer>();
         }

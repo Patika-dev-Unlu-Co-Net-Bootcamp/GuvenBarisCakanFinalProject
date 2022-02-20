@@ -20,9 +20,6 @@ namespace UnluCoProductCatalog.Application.Services
 
         public IEnumerable<GetOfferUserViewModel> GetUserOffers(string userId)
         {
-            //var offers = _unitOfWork.AccountDetail.Get(a => a.UserId == userId)
-            //    .SelectMany(o => o.Offers).Where(o => o.IsSold == false);
-            //_mapper.Map<IEnumerable<GetOfferQueryViewModel>>(offers);
 
             return _unitOfWork.Offer.GetUserOffers(userId);
         }

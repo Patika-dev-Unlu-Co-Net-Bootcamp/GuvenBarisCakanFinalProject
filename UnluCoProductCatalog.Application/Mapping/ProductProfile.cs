@@ -9,7 +9,7 @@ namespace UnluCoProductCatalog.Application.Mapping
 
         public ProductProfile()
         {
-            CreateMap<Product, GetProductViewModel>();
+            CreateMap<Product, GetProductViewModel>().ReverseMap();
             CreateMap<CreateProductViewModel, Product>();
         }
     }

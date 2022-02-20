@@ -8,9 +8,9 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     public interface IProductService
     {
         IEnumerable<GetProductViewModel> GetAll();
-        void RetractTheOffer(int productId, string userId);
+        void RetractTheOffer(int productId);
         void SellProduct(int productId, string userId, double price);
-        Task Create(CreateProductViewModel entity);
-        void Delete(int id);
+        void Create(CreateProductViewModel entity,string userId);
+        void UpdateIsOfferable(int id);
     }
 }

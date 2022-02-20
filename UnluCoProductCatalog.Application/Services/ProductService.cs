@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
+using FluentValidation;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
@@ -24,44 +25,65 @@ namespace UnluCoProductCatalog.Application.Services
 
         public IEnumerable< GetProductViewModel> GetAll()
         {
-            var products = _unitOfWork.Product.GetAll();
+            var products = _unitOfWork.Product.GetProducts();
 
             return _mapper.Map<IEnumerable<GetProductViewModel>>(products);
         }
 
-        public void RetractTheOffer(int productId,string userId)
+        public void RetractTheOffer(int offerId)
         {
-            var product = _unitOfWork.Product.GetById(productId);
+            var offer = _unitOfWork.Offer.GetById(offerId);
 
-            if (product.UserId != userId) return;
-            if (product.IsOfferable)
+            offer.IsDeleted = true;
+
+            _unitOfWork.Offer.Update(offer);
+
+            if (!_unitOfWork.SaveChanges())
             {
-                product.IsOfferable = false;
-                _unitOfWork.Product.Update(product);
-                _unitOfWork.SaveChanges();
+                throw new NotSavedExceptions("Offer");
             }
-            else
-                throw new NotFoundExceptions("Product",productId);
         }
 
         public void SellProduct(int productId, string userId,double price)
         {
             var product = _unitOfWork.Product.GetById(productId);
-            if (!(product.Price > price)) return;
+
+            if (product is null)
+            {
+                throw new NotFoundExceptions("Product", productId);
+            }
+            
+            if (product.Price > price)
+            {
+                throw new InvalidOperationException("Price is not enough");
+            }
+
+            if (product.IsOfferable)
+            {
+                throw new InvalidOperationException("Product is not offerable");
+            }
+
             product.IsSold = true;
+            product.UserId = userId;
+            
             _unitOfWork.Product.Update(product);
-            _unitOfWork.SaveChanges();
+            if (!_unitOfWork.SaveChanges())
+            {
+                throw new NotSavedExceptions("Product");
+            }
         }
 
-        public async Task Create(CreateProductViewModel entity)
+        public void Create(CreateProductViewModel entity,string userId)
         {
             var validator = new CreateProductViewModelValidator();
 
-            await validator.ValidateAsync(entity);
+            validator.ValidateAndThrow(entity);
 
             var product = _mapper.Map<Product>(entity);
+
             product.IsSold = false;
             product.IsOfferable = false;
+            product.UserId = userId;
 
             _unitOfWork.Product.Create(product);
             if (!_unitOfWork.SaveChanges())
@@ -70,11 +92,10 @@ namespace UnluCoProductCatalog.Application.Services
             }
         }
 
-        public void Delete(int id)
+        public void UpdateIsOfferable(int id)
         {
             var product = _unitOfWork.Product.GetById(id);
-            product.IsDeleted = true;
-
+            product.IsOfferable = true;
             _unitOfWork.Product.Update(product);
             if (!_unitOfWork.SaveChanges())
             {

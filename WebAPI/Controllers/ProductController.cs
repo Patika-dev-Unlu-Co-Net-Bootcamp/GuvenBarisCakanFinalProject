@@ -22,33 +22,36 @@ namespace WebAPI.Controllers
             return Ok(_productService.GetAll());
         }
 
-        [HttpPut("{id}")]
-        public IActionResult RetractTheOffer(int productId)
+        [HttpPut("retractoffer/{offerId}")]
+        public IActionResult RetractTheOffer(int offerId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.Name);
-            _productService.RetractTheOffer(productId, userId);
+            _productService.RetractTheOffer(offerId);
             return Ok();
         }
 
-        [HttpPut("sellproduct/{id}")]
-        public IActionResult SellProduct(int productId, double price)
+        [HttpPut("sellproduct{id}")]
+        public IActionResult SellProduct(int id, double price)
         {
-            var userId = User.FindFirstValue(ClaimTypes.Name);
-            _productService.SellProduct(productId, userId, price);
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            _productService.SellProduct(id, userId, price);
+            return Ok();
+        }
+
+        [HttpPut("productisofferable/{id}")]
+        public IActionResult UpdateIsOfferable(int id)
+        {
+            _productService.UpdateIsOfferable(id);
             return Ok();
         }
 
         [HttpPost]
         public IActionResult Create(CreateProductViewModel product)
         {
-            _productService.Create(product);
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Create(int id)
-        {
-            _productService.Delete(id);
+            //userId get FromBody
+            //var userId = User.FindFirstValue(ClaimTypes.Name);
+            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            _productService.Create(product,userId);
             return Ok();
         }
     }
