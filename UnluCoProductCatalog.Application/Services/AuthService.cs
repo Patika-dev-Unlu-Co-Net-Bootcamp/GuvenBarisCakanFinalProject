@@ -1,8 +1,11 @@
 ﻿using System;
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Jwt;
+using UnluCoProductCatalog.Application.RabbitMQ;
+using UnluCoProductCatalog.Application.Services.Mail;
 using UnluCoProductCatalog.Application.Validations.AuthValidation;
 using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
 using UnluCoProductCatalog.Domain.Entities;
@@ -15,12 +18,14 @@ namespace UnluCoProductCatalog.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly TokenGenarator _tokenGenarator;
+        private readonly IPusblisherService _pusblisherService;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, TokenGenarator tokenGenarator)
+        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, TokenGenarator tokenGenarator, IPusblisherService pusblisherService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenGenarator = tokenGenarator;
+            _pusblisherService = pusblisherService;
         }
 
         public async Task<bool> Register(RegisterViewModel registerUserModel)
@@ -83,6 +88,15 @@ namespace UnluCoProductCatalog.Application.Services
             {
                 userFind.LockoutEnabled = true;
                 await _userManager.UpdateAsync(userFind);
+
+                var email = new Email
+                {
+                    To = userFind.Email,
+                    Subject = "Account Blocked",
+                    Body = "Your account has been blocked for logging in 3 times wrong in a row."
+                };
+                _pusblisherService.Publish(email,"blocked");
+
                 throw new InvalidOperationException("User blocked");
             }
         }

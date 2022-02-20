@@ -96,24 +96,5 @@ namespace UnluCoProductCatalog.Application.Services
             if (!_unitOfWork.SaveChanges())
                 throw new NotSavedExceptions("Category");
         }
-
-        private static void DEneme()
-        {
-            string str = "Merhaba";
-            int sayi1 = 0;
-            int sayi2 = 0;
-            foreach (var char1 in str)
-            {
-                if (char1 == 'A')
-                {
-                    sayi1 += 1;
-                }
-                
-                sayi2 += 1;
-
-            }
-
-            int result = Math.Abs(sayi1 - sayi2);
-        }
     }
 }

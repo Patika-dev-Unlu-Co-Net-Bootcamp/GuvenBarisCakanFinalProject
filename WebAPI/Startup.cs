@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +8,6 @@ using Microsoft.OpenApi.Models;
 using UnluCoProductCatalog.Application.DependencyContainers;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Services;
-using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Infrastructure.DependencyContainers;
 
 
