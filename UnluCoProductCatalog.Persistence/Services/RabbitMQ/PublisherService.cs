@@ -1,21 +1,20 @@
 ﻿using System.Text;
 using RabbitMQ.Client;
-using UnluCoProductCatalog.Application.Interfaces;
-using UnluCoProductCatalog.Application.Services.Mail;
+using UnluCoProductCatalog.Application.Interfaces.RabbitMQ;
+using UnluCoProductCatalog.Application.ViewModels.EmailViewModels;
 
-namespace UnluCoProductCatalog.Application.RabbitMQ
+namespace UnluCoProductCatalog.Persistence.Services.RabbitMQ
 {
-    public class PusblisherService : IPusblisherService
+    public class PublisherService : IPublisherService
     {
         private readonly IRabbitMqService _rabbitMqService;
 
-
-        public PusblisherService(IRabbitMqService rabbitMqService)
+        public PublisherService(IRabbitMqService rabbitMqService)
         {
             _rabbitMqService = rabbitMqService;
         }
 
-        public void Publish(Email email,string queueName)
+        public void Publish(EmailToSend email,string queueName)
         {
             using var connection = _rabbitMqService.GetRabbitMqConnection();
             using var channel = connection.CreateModel();
@@ -24,7 +23,6 @@ namespace UnluCoProductCatalog.Application.RabbitMQ
             var body = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(email));
 
             channel.BasicPublish("", queueName, null, body: body);
-
         }
     }
 }

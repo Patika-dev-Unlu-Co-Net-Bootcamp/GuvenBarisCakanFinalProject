@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UnluCoProductCatalog.Application\UnluCoProductCatalog.Application.csproj" />
     <ProjectReference Include="..\UnluCoProductCatalog.Infrastructure\UnluCoProductCatalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\UnluCoProductCatalog.Persistence\UnluCoProductCatalog.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

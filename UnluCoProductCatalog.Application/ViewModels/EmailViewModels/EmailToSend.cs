@@ -1,7 +1,7 @@
 ﻿
-namespace UnluCoProductCatalog.Application.Services.Mail
+namespace UnluCoProductCatalog.Application.ViewModels.EmailViewModels
 {
-    public class Email
+    public class EmailToSend
     {
         public string To { get; set; }
         public string From { get;} = "gvnbrs54@gmail.com";

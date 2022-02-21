@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace UnluCoProductCatalog.Application.Services.Mail
+namespace UnluCoProductCatalog.Application.Interfaces.Mail
 {
     public interface ISmtpServer
     {

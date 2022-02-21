@@ -9,7 +9,7 @@ using UnluCoProductCatalog.Application.DependencyContainers;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Services;
 using UnluCoProductCatalog.Infrastructure.DependencyContainers;
-
+using UnluCoProductCatalog.Persistence.DependecnyContainers;
 
 namespace WebAPI
 {
@@ -30,6 +30,7 @@ namespace WebAPI
 
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
+            services.AddPersistenceServices();
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebAPI", Version = "v1"}); });
 
@@ -41,7 +42,6 @@ namespace WebAPI
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<IBrandService, BrandService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,11 +2,12 @@
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using UnluCoProductCatalog.Application.Enums;
+using UnluCoProductCatalog.Application.Interfaces.RabbitMQ;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Jwt;
-using UnluCoProductCatalog.Application.RabbitMQ;
-using UnluCoProductCatalog.Application.Services.Mail;
 using UnluCoProductCatalog.Application.Validations.AuthValidation;
+using UnluCoProductCatalog.Application.ViewModels.EmailViewModels;
 using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Domain.Jwt;
@@ -18,9 +19,9 @@ namespace UnluCoProductCatalog.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly TokenGenarator _tokenGenarator;
-        private readonly IPusblisherService _pusblisherService;
+        private readonly IPublisherService _pusblisherService;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, TokenGenarator tokenGenarator, IPusblisherService pusblisherService)
+        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, TokenGenarator tokenGenarator, IPublisherService pusblisherService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,15 +43,17 @@ namespace UnluCoProductCatalog.Application.Services
 
             var emailCheckUser = await _userManager.FindByEmailAsync(registerUserModel.Email);
 
-            if (emailCheckUser is null) throw new InvalidOperationException("Email already exists");
+            if (emailCheckUser is not null) throw new InvalidOperationException("Email already exists");
 
             var result = await _userManager.CreateAsync(user, registerUserModel.Password);
 
             Console.WriteLine(result.Errors);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Member");
                 await _signInManager.SignInAsync(user, false);
+
+
                 return true;
             }
             throw new InvalidOperationException("User registration is not successful");
@@ -73,7 +76,16 @@ namespace UnluCoProductCatalog.Application.Services
             if (!result)
             {
                 await AccessRightControl(userFind);
+
+                var email = new EmailToSend()
+                {
+                    To = userFind.Email,
+                    Subject = "Welcome",
+                    Body = "Hope you have a good time on our site",
+                };
+                _pusblisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
                 throw new InvalidOperationException("Password is not correct");
+                
             }
             
             var userRoles = await _userManager.GetRolesAsync(userFind);
@@ -89,14 +101,13 @@ namespace UnluCoProductCatalog.Application.Services
                 userFind.LockoutEnabled = true;
                 await _userManager.UpdateAsync(userFind);
 
-                var email = new Email
+                var email = new EmailToSend()
                 {
                     To = userFind.Email,
                     Subject = "Account Blocked",
                     Body = "Your account has been blocked for logging in 3 times wrong in a row."
                 };
-                _pusblisherService.Publish(email,"blocked");
-
+                _pusblisherService.Publish(email,RabbitMqQueue.EmailSenderQueue.ToString());
                 throw new InvalidOperationException("User blocked");
             }
         }

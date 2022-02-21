@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace UnluCoProductCatalog.Application.RabbitMQ
+namespace UnluCoProductCatalog.Application.Interfaces.RabbitMQ
 {
     public interface IRabbitMqService
     {
