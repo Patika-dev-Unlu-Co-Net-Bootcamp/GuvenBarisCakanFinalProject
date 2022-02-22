@@ -30,27 +30,6 @@ namespace UnluCoProductCatalog.Application.Services
             return result;
         }
 
-        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
-        {
-            if (id == 0)
-            { 
-                var productsAll = _unitOfWork.Product.GetProducts();
-                return productsAll;
-            }
-
-            var checkCategoryId = _unitOfWork.Category.GetById(id);
-            if (checkCategoryId is null)
-            {
-                throw new NotFoundExceptions("Category", id);
-            }
-            var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
-            if (productsFilter is null)
-            {
-                throw new NotFoundExceptions("Product");
-            }
-            return productsFilter;
-        }
-
         public void Create(CommandCategoryViewModel entity)
         {
             var validator = new CommandCategoryViewModelValidator();

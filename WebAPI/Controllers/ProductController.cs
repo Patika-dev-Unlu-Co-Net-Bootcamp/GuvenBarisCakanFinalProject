@@ -16,10 +16,11 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+
+        [HttpGet("categoryId")]
+        public IActionResult GetAllByCategoryId([FromQuery] int id = 0)
         {
-            return Ok(_productService.GetAll());
+            return Ok(_productService.GetProductsByCategoryId(id));
         }
 
         [HttpPut("retractoffer/{offerId}")]

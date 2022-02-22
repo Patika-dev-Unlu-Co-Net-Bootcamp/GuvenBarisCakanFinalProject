@@ -49,6 +49,27 @@ namespace UnluCoProductCatalog.Application.Services
             }
         }
 
+        public IEnumerable<GetProductViewModel> GetProductsByCategoryId(int id)
+        {
+            if (id == 0)
+            {
+                var productsAll = _unitOfWork.Product.GetProducts();
+                return productsAll;
+            }
+
+            var checkCategoryId = _unitOfWork.Category.GetById(id);
+            if (checkCategoryId is null)
+            {
+                throw new NotFoundExceptions("Category", id);
+            }
+            var productsFilter = _unitOfWork.Product.GetProductsByCategoryId(id);
+            if (productsFilter is null)
+            {
+                throw new NotFoundExceptions("Product");
+            }
+            return productsFilter;
+        }
+
         public void SellProduct(int productId, string userId,double price)
         {
             var product = _unitOfWork.Product.GetById(productId);
@@ -77,7 +98,6 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotSavedExceptions("Product");
             }
         }
-
         public void Create(CreateProductViewModel entity,string userId)
         {
             var validator = new CreateProductViewModelValidator();
