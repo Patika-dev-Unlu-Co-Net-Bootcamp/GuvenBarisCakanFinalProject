@@ -3,61 +3,126 @@
 @using Newtonsoft.Json
 @using UnluCoProductCatalog.Application.ViewModels.OfferViewModels
 @using System.Net.Http.Headers
+@using Blazored.LocalStorage
+@using BlazorUI.Common.Authentication
+@using System.Diagnostics
 @inject IHttpClientFactory ClientFactory
 @inject ProtectedLocalStorage _localStorage
 
-@if(@Offers is null)
+
+@if(@UserOffers is null && @ProductOffers is null)
 {
-
-    <h1>Bekle</h1>
-
+    <h1>Giriş Yapınız</h1>
 }
 
 else{
-    
-    @foreach (var offer in Offers)
-{
-<h4>@offer.OfferedPrice</h4>
+
+    <div class="container">
+        @*Kullanıcının yapıtğı teklifler*@
+        <div style="height: 50vh; max-width: 100%;">
+            <h2>Giden Teklifler</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Ürün Adı</th>
+                    <th scope="col">Açıklama</th>
+                    <th scope="col">Marka</th>
+                    <th scope="col">Teklif</th>
+                    <th scope="col">Onay Durumu</th>
+                </tr>
+                </thead>
+                <tbody class="bg-light">
+                @foreach (var offer in UserOffers)
+                {
+                    <tr>
+                        <td>@offer.Product.ProductName</td>
+                        <td>@offer.Product.Description</td>
+                        <td>@offer.Product.BrandName</td>
+                        <td>@offer.OfferedPrice</td>
+                        <td>@offer.IsApproved</td>
+                    </tr>
+                }
+                
+                </tbody>
+            </table>
+        </div>
+        <div stlye="height :50vh; max-width:100%;">
+            <div>
+                @*Kullanıcının ürünlerine gelen teklifler*@
+                <h2>Gelen Teklifler</h2>
+                <table class="table">
+
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Ürün Adı</th>
+                            <th scope="col">Açıklama</th>
+                            <th scope="col">Marka</th>
+                            <th scope="col">Teklif</th>
+                            <th scope="col">Onay</th>
+                            <th scope="col">Ürün Fiyatı</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-light">
+
+                        @foreach (var offer in ProductOffers)
+                        {
+                            <tr>
+                                <td>@offer.Product.ProductName</td>
+                                <td>@offer.Product.Description</td>
+                                <td>@offer.Product.BrandName</td>
+                                <td>@offer.OfferedPrice</td>
+                                <td>@offer.IsApproved</td>
+                                <td>@offer.Product.Price</td>
+                            </tr>
+                        }
+                 
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
-
-<AuthorizeView>
-    <Authorized>
-       <h1>Merhaba</h1>
-    </Authorized>
-</AuthorizeView>
-
-<h4>SAKARYALI</h4>
-}
-
 
 @code
 {
-    public IEnumerable<GetOfferUserViewModel> Offers { get; set; }
+    public IEnumerable<GetOfferUserViewModel> UserOffers { get; set; }
 
-    protected async Task OnAfterRenderAsync()
+    public IEnumerable<GetOfferUserViewModel> ProductOffers { get; set; }
+
+    public AuthStateProvider Provider { get; set; }
+
+    protected override async Task  OnAfterRenderAsync(bool firstRender)
     {
 
         var client = ClientFactory.CreateClient();
 
-        var token = await _localStorage.GetAsync<string>("token");
+        var token = await _localStorage.GetAsync<string>("authToken");
 
+        var userOfferRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:3000/api/AccountDetails/getuseroffers");
+        userOfferRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
-        var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:3000/api/AccountDetails/getuseroffers");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
-
-        var response = await client.SendAsync(request);
+        var response = await client.SendAsync(userOfferRequest);
 
         if (response.IsSuccessStatusCode)
         {
 
             var json = await response.Content.ReadAsStringAsync();
-            Offers = JsonConvert.DeserializeObject<IEnumerable<GetOfferUserViewModel>>(json);
-            Console.WriteLine("21312");
-
+            UserOffers = JsonConvert.DeserializeObject<IEnumerable<GetOfferUserViewModel>>(json);
         }
+
+        var productOfferRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:3000/api/AccountDetails/getuserproductoffer");
+
+        productOfferRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+        var productResponse = await client.SendAsync(productOfferRequest);
+
+        if (productResponse.IsSuccessStatusCode)
+        {
+            var json = await productResponse.Content.ReadAsStringAsync();
+            ProductOffers = JsonConvert.DeserializeObject<IEnumerable<GetOfferUserViewModel>>(json);
+        }
+
+        StateHasChanged();
     }
-
-
-
-
 }

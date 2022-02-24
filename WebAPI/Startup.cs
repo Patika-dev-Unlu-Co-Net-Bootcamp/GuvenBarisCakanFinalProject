@@ -42,6 +42,7 @@ namespace WebAPI
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<IBrandService, BrandService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

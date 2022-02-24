@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using UnluCoProductCatalog.Application.ViewModels.UserViewModels;
@@ -44,7 +45,7 @@ namespace BlazorUI.Common.Authentication
             var authResult = await _client.PostAsync(requestUri:requestUri, bodyContent);
             var authContent = await authResult.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<Token>(authContent, _options);
-            
+
             await _localStorage.SetAsync("authToken", result.AccessToken);
             ((AuthStateProvider)_authStateProvider).NotifyUserAuthentication(loginViewModel.Email);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.AccessToken);
