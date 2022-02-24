@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consumer", "Consumer", "{DB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnluCoProductCatalog.ConsoleConsumer", "UnluCoProductCatalog.ConsoleConsumer\UnluCoProductCatalog.ConsoleConsumer.csproj", "{C85D9500-79F6-46B4-A0B0-36DE6BCDE421}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorUI", "BlazorUI\BlazorUI.csproj", "{08E8D50E-15CE-4EB9-B129-3A1AA1EB3EFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUI", "BlazorUI\BlazorUI.csproj", "{08E8D50E-15CE-4EB9-B129-3A1AA1EB3EFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

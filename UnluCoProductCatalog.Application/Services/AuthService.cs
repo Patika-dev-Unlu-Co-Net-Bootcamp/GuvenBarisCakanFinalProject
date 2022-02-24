@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using UnluCoProductCatalog.Application.Enums;
@@ -85,7 +84,6 @@ namespace UnluCoProductCatalog.Application.Services
                 };
                 _pusblisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
                 throw new InvalidOperationException("Password is not correct");
-                
             }
             
             var userRoles = await _userManager.GetRolesAsync(userFind);

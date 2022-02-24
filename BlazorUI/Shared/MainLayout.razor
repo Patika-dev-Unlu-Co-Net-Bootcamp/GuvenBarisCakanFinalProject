@@ -1,13 +1,27 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorUI.Common.Authentication
+@inherits LayoutComponentBase
+
+
 
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
-
     <div class="main">
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+
+
+            <NavLink class="nav-link" href="logout">
+                <span class="oi" aria-hidden="true"></span> Logout
+            </NavLink>
+
+            <NavLink class="nav-link" href="login">
+                <span class="oi" aria-hidden="true"></span> Login
+            </NavLink>
+            <NavLink class="nav-link" href="register">
+                <span class="oi" aria-hidden="true"></span> Register
+            </NavLink>
+
         </div>
 
         <div class="content px-4">

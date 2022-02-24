@@ -33,8 +33,7 @@ namespace WebAPI.Controllers
         [HttpPut("sellproduct{id}")]
         public IActionResult SellProduct(int id, double price)
         {
-            //var userId = User.FindFirstValue(ClaimTypes.Name);
-            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            var userId = User.FindFirstValue(ClaimTypes.Name);
             _productService.SellProduct(id, userId, price);
             return Ok();
         }

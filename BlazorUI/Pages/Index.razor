@@ -1,11 +1,10 @@
 ﻿@page "/"
-@using BlazorUI.Components
 @using Newtonsoft.Json
 @using UnluCoProductCatalog.Application.ViewModels.ProductViewModels
 @using BlazorUI.Common
 @using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels
 @inject IHttpClientFactory ClientFactory
-@inject StateContainerService stateContainerService
+
 
 @if (Products is null)
 {
@@ -15,11 +14,8 @@
 else
 {
     <div class="row">
-
         <div class="col-md-3">
- 
             <div class="list-group">
-
                 @foreach (var category in Categories)
                 {
                     <button type="button" class="list-group-item list-group-item-action" @onclick="() => { if (category != null) SetSelect(category.Id); }">@category.CategoryName</button>
@@ -65,6 +61,9 @@ else
 {
     public IEnumerable<GetProductViewModel> Products { get; set; }
     public IEnumerable<CategoryViewModel> Categories { get; set; }
+    public Task<AuthenticationState> AuthState { get; set; }
+    public bool ShowUserName { get; set; }
+    public string UserIdentityName { get; set; }
 
     private int _categoryId;
 
@@ -81,7 +80,7 @@ else
         if (categoryResponse.IsSuccessStatusCode)
         {
             var json = await categoryResponse.Content.ReadAsStringAsync();
-            Categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(json);
+            Categories = JsonConvert.DeserializeObject<IEnumerable<CategoryViewModel>>(json).Take(10);
         }
 
         request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:3000/api/Products/categoryId");
@@ -93,6 +92,9 @@ else
             Products = JsonConvert.DeserializeObject<IEnumerable<GetProductViewModel>>(json);
 
         }
+
+        StateHasChanged();
+
     }
 
     public void SetSelect(int id)
@@ -114,7 +116,6 @@ else
         {
             var json = await response.Content.ReadAsStringAsync();
             Products = JsonConvert.DeserializeObject<IEnumerable<GetProductViewModel>>(json);
-
         }
 
     }

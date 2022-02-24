@@ -1,0 +1,72 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.Components
+@using UnluCoProductCatalog.Application.ViewModels.UserViewModels
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject IHttpClientFactory ClientFactory
+@inject ProtectedLocalStorage Storage
+
+@if (ShowAuthError)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>Unauthorized</p>
+    </div>
+}
+<EditForm Model="_userForAuthentication" OnValidSubmit="Submit" class="card card-body bg-light mt-5 w-75 p-3">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Email:</label>
+        <div class="col-md-10">
+            <InputText id="email" class="form-control" @bind-Value="_userForAuthentication.Email" />
+            <ValidationMessage For="@(() => _userForAuthentication.Email)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="password" class="col-md-2 col-form-label">Password:</label>
+        <div class="col-md-10">
+            <InputText type="password" id="password" class="form-control" @bind-Value="_userForAuthentication.Password" />
+            <ValidationMessage For="@(() => _userForAuthentication.Password)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success">Login</button>
+        </div>
+    </div>
+</EditForm>
+@code
+{
+    private readonly LoginViewModel _userForAuthentication = new LoginViewModel();
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public bool ShowAuthError { get; set; }
+
+    private async Task Submit()
+    {
+        ShowAuthError = false;
+
+        var client = ClientFactory.CreateClient();
+
+        //var content = JsonSerializer.Serialize(_userForAuthentication);
+        //var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:3000/api/Auths/login");
+
+        var response = await client.PostAsJsonAsync("http://localhost:3000/api/Auths/login", _userForAuthentication);
+
+        if (response.IsSuccessStatusCode)
+        {
+            string token = await response.Content.ReadAsStringAsync();
+            await Storage.SetAsync("token", token);
+            NavigationManager.NavigateTo("/accountdetail",true);
+        }
+
+        else
+        {
+            ShowAuthError = true;
+        }
+    }
+
+}

@@ -1,0 +1,63 @@
+﻿@page  "/accountdetail"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Newtonsoft.Json
+@using UnluCoProductCatalog.Application.ViewModels.OfferViewModels
+@using System.Net.Http.Headers
+@inject IHttpClientFactory ClientFactory
+@inject ProtectedLocalStorage _localStorage
+
+@if(@Offers is null)
+{
+
+    <h1>Bekle</h1>
+
+}
+
+else{
+    
+    @foreach (var offer in Offers)
+{
+<h4>@offer.OfferedPrice</h4>
+}
+
+<AuthorizeView>
+    <Authorized>
+       <h1>Merhaba</h1>
+    </Authorized>
+</AuthorizeView>
+
+<h4>SAKARYALI</h4>
+}
+
+
+@code
+{
+    public IEnumerable<GetOfferUserViewModel> Offers { get; set; }
+
+    protected async Task OnAfterRenderAsync()
+    {
+
+        var client = ClientFactory.CreateClient();
+
+        var token = await _localStorage.GetAsync<string>("token");
+
+
+        var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:3000/api/AccountDetails/getuseroffers");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+
+            var json = await response.Content.ReadAsStringAsync();
+            Offers = JsonConvert.DeserializeObject<IEnumerable<GetOfferUserViewModel>>(json);
+            Console.WriteLine("21312");
+
+        }
+    }
+
+
+
+
+}
