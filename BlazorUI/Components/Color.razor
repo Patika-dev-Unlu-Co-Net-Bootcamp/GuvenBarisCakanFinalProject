@@ -112,10 +112,8 @@ else
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
 
 
-        var result = await client.PostAsync(path, bodyContent);
-
-        var response = await client.SendAsync(request);
-
+        var response = await client.PostAsync(path, bodyContent);
+        
         StateHasChanged();
 
 

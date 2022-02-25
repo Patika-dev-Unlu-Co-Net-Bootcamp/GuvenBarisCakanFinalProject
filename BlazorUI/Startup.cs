@@ -1,5 +1,3 @@
-using System;
-using System.Text;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,13 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorUI.Common;
 using BlazorUI.Common.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using UnluCoProductCatalog.Domain.Entities;
-using UnluCoProductCatalog.Infrastructure.Contexts;
-
+using Tewr.Blazor.FileReader;
 
 namespace BlazorUI
 {
@@ -39,29 +31,7 @@ namespace BlazorUI
             services.AddAuthorizationCore();
             services.AddScoped<AuthStateProvider>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
-
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-                {
-                    options.SaveToken = true;
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                    {
-                        ValidateAudience = true,
-                        ValidAudience = Configuration["Jwt:Audience"],
-                        ValidateIssuer = true,
-                        ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidateLifetime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                }
-            );
+            services.AddFileReaderService(o => o.UseWasmSharedBuffer = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

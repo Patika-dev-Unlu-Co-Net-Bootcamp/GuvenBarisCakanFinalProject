@@ -9,10 +9,11 @@
 @using System.Text
 @using Newtonsoft.Json
 @using JsonSerializer = System.Text.Json.JsonSerializer
+@using System.IO
+@using UnluCoProductCatalog.Application.ViewModels.UploadedViewModels
 
 @inject IHttpClientFactory clientFactory
 @inject ProtectedLocalStorage _localStorage
-
 
 
 @if (Products is null || Categories is null || Brands is null || Colors is null || UsingStatuses is null)
@@ -50,7 +51,7 @@ else
                                 <td>@product.BrandName</td>
                                 <td>@product.Price</td>
                                 <td>@product.IsOfferable</td>
-                                <td> <img src="https://picsum.photos/64" /></td>
+                                <td><img src="@product.Image"/></td>
                                 <td><button class="btn btn-warning" @onclick="ChangeIsOfferable">Durumu Güncelle</button></td>
                             </tr>
                         }
@@ -109,10 +110,7 @@ else
 
                 <div class="form-group row">
                     <label for="colorId" class="col-sm-2 col-form-label">Renk:</label>
-
                     <div class="col-sm-10">
-
-
                         <InputSelect style="width: 100%" id="colorId" @bind-Value="_product.ColorId" class="form-control">
                             @foreach (var color in Colors)
                                     {
@@ -120,11 +118,10 @@ else
                                     }
                         </InputSelect>
                     </div>
-
                 </div>
 
                 <div class="form-group row">
-                    <label for="userId" class="col-sm-2 col-form-label">Renk:</label>
+                    <label for="userId" class="col-sm-2 col-form-label">Kullanıcı Durumu:</label>
 
                     <div class="col-sm-10">
 
@@ -134,7 +131,6 @@ else
                                 <option value="@usingStatus.Id">@usingStatus.UsingStatusName</option>
                                     }
                         </InputSelect>
-
                     </div>
                 </div>
 
@@ -142,7 +138,7 @@ else
                     <label for="price" class="col-sm-2 col-form-label">Fiyat:</label>
                     <div class="col-sm-10">
 
-                        <InputText type="number" id="price" @bind-Value=Price class="form-control">
+                        <InputText type="text" id="price" @bind-Value=Price class="form-control">
                         </InputText>
                     </div>
 
@@ -150,8 +146,9 @@ else
 
                 <div class="form-group row">
                     <label for="img">Ürün resmi ekleyiniz:</label>
-                    <input type="file" id="img" name="img" accept="image/*">
+                    <InputFile OnChange="@LoadFiles" ></InputFile>
                 </div>
+
 
                 <div class="row">
                     <div class="col-md-12 text-right">
@@ -167,6 +164,7 @@ else
     }
 }
 
+
 @code {
     public IEnumerable<GetProductViewModel> Products { get; set; }
 
@@ -176,10 +174,35 @@ else
     public IEnumerable<UsingStatusViewModel> UsingStatuses { get; set; }
     public bool Paging { get; set; } = true;
     public string Message { get; set; }
-
     public string Price { get; set; }
-
     private readonly CreateProductViewModel _product = new CreateProductViewModel();
+
+    public byte[] Image { get; set; }
+
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+
+        var selectedFiles = e.GetMultipleFiles();
+
+        foreach (var file in selectedFiles)
+        {
+            Stream stream = file.OpenReadStream();
+            MemoryStream memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+
+            stream.Close();
+
+            UploadedViewModel uploadedFile = new UploadedViewModel
+            {
+                FileName = file.Name,
+                FileContent = memoryStream.ToArray()
+            };
+            memoryStream.Close();
+            Image = uploadedFile.FileContent;
+        }
+    }
+
 
     public async void AddProduct()
     {
@@ -187,10 +210,21 @@ else
         var token = await _localStorage.GetAsync<string>("authToken");
         string path = "http://localhost:3000/api/Products";
 
+        _product.Image = Convert.ToBase64String(Image);
+        _product.Price = 256;
+
         var content = JsonSerializer.Serialize(_product);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, path);
+
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
         var result = await client.PostAsync(path, bodyContent);
-        if (result.IsSuccessStatusCode)
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
         {
             StateHasChanged();
 
@@ -215,8 +249,6 @@ else
             StateHasChanged();
 
         }
-
-
     }
 
     protected override async Task OnInitializedAsync()
@@ -267,9 +299,7 @@ else
                 var json = await usingStatusResponse.Content.ReadAsStringAsync();
                 UsingStatuses = JsonConvert.DeserializeObject<IEnumerable<UsingStatusViewModel>>(json);
             }
-
         }
-
     }
     public void ChangePage()
     {

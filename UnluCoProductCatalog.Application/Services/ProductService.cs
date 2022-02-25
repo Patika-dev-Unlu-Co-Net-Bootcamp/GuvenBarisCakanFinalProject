@@ -127,7 +127,7 @@ namespace UnluCoProductCatalog.Application.Services
 
             product.IsSold = false;
             product.IsOfferable = false;
-            product.UserId = userId;
+            product.UserId = "qwbeasbkdbsakjdbas";
 
             _unitOfWork.Product.Create(product);
             if (!_unitOfWork.SaveChanges())
