@@ -14,7 +14,7 @@
     <DataAnnotationsValidator />
     <h3>Register</h3>
     <div class="form-group row">
-        <label for="username" class="col-md-2 col-form-label">Username</label>
+        <label for="username" class="col-sm-2 col-form-label">Username</label>
         <div class="col-md-10">
             <InputText id="username" class="form-control" @bind-Value="_register.UserName" />
             <ValidationMessage For="@(() => _register.UserName)" />
@@ -22,21 +22,21 @@
     </div>
 
     <div class="form-group row">
-        <label for="email" class="col-md-2 col-form-label">Email:</label>
+        <label for="email" class="col-sm-2 col-form-label">Email:</label>
         <div class="col-md-10">
             <InputText id="email" class="form-control" @bind-Value="_register.Email" />
             <ValidationMessage For="@(() => _register.Email)" />
         </div>
     </div>
     <div class="form-group row">
-        <label for="password" class="col-md-2 col-form-label">Password:</label>
+        <label for="password" class="col-sm-2 col-form-label">Password:</label>
         <div class="col-md-10">
             <InputText type="password" id="password" class="form-control" @bind-Value="_register.Password" />
             <ValidationMessage For="@(() => _register.Password)" />
         </div>
     </div>
     <div class="form-group row">
-        <label for="passwordCheck" class="col-md-2 col-form-label">Repeat Password:</label>
+        <label for="passwordCheck" class="col-sm-2 col-form-label">Repeat Password:</label>
         <div class="col-md-10">
             <InputText type="password" id="passwordCheck" class="form-control" @bind-Value="_passwordCheck" />
             <ValidationMessage For="@(() => _passwordCheck)" />

@@ -42,6 +42,7 @@ namespace WebAPI
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IUsingStatusService, UsingStatusService>();
 
         }
 

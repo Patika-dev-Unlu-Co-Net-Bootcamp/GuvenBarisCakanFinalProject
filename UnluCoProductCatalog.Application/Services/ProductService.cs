@@ -39,6 +39,11 @@ namespace UnluCoProductCatalog.Application.Services
                 throw new NotFoundExceptions("Offer", offerId);
             }
 
+            if (offer.IsApproved)
+            {
+                throw new InvalidOperationException("Offer approved so you can't retract the offer");
+            }
+
             offer.IsDeleted = true;
 
             _unitOfWork.Offer.Update(offer);
@@ -70,16 +75,30 @@ namespace UnluCoProductCatalog.Application.Services
             return productsFilter;
         }
 
-        public void SellProduct(int productId, string userId,double price)
+        public IEnumerable<GetProductViewModel> GetUserProducts(string userId)
         {
-            var product = _unitOfWork.Product.GetById(productId);
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new NotFoundExceptions("User");
+            }
+            return _unitOfWork.Product.GetUserProducts(userId);
+        }
+
+        public IEnumerable<ProductOfferViewModel> GetProductsForOffer()
+        {
+            return _unitOfWork.Product.GetProductsForOffer();
+        }
+
+        public void SellProduct(ProductSellViewModel entity, string userId)
+        {
+            var product = _unitOfWork.Product.GetById(entity.ProductId);
 
             if (product is null)
             {
-                throw new NotFoundExceptions("Product", productId);
+                throw new NotFoundExceptions("Product", entity.ProductId);
             }
             
-            if (product.Price > price)
+            if (product.Price > entity.Price)
             {
                 throw new InvalidOperationException("Price is not enough");
             }

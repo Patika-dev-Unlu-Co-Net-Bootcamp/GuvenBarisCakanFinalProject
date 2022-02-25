@@ -16,6 +16,25 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(_productService.GetAll());
+        }
+
+        [HttpGet("productsforoffer")]
+        public IActionResult GetProductsForOffer()
+        {
+            return Ok(_productService.GetProductsForOffer());
+        }
+
+
+        [HttpGet("userproducts")]
+        public IActionResult GetUserProducts()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            return Ok(_productService.GetUserProducts(userId));
+        }
 
         [HttpGet("categoryId")]
         public IActionResult GetAllByCategoryId([FromQuery] int id = 0)
@@ -30,11 +49,11 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("sellproduct{id}")]
-        public IActionResult SellProduct(int id, double price)
+        [HttpPut("sellproduct")]
+        public IActionResult SellProduct(ProductSellViewModel sellproduct)
         {
             var userId = User.FindFirstValue(ClaimTypes.Name);
-            _productService.SellProduct(id, userId, price);
+            _productService.SellProduct(sellproduct, userId);
             return Ok();
         }
 
@@ -48,9 +67,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Create(CreateProductViewModel product)
         {
-            //userId get FromBody
-            //var userId = User.FindFirstValue(ClaimTypes.Name);
-            var userId = "514ee1a1-f24b-40bf-b0d9-c5da6357c151";
+            var userId = User.FindFirstValue(ClaimTypes.Name);
             _productService.Create(product,userId);
             return Ok();
         }
