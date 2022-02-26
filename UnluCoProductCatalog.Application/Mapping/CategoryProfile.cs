@@ -9,7 +9,6 @@ namespace UnluCoProductCatalog.Application.Mapping
         public CategoryProfile()
         {
             CreateMap<Category,CategoryViewModel>().ReverseMap();
-            CreateMap<CategoryViewModel, Category>().ReverseMap();
             CreateMap<CommandCategoryViewModel, Category>().ReverseMap();
         }
     }

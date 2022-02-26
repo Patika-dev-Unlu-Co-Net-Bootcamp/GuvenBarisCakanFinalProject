@@ -11,6 +11,7 @@ using UnluCoProductCatalog.Application.Interfaces.Repositories;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.Services;
+using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Infrastructure.Contexts;
 using UnluCoProductCatalog.Infrastructure.Repositories;
@@ -33,6 +34,11 @@ namespace UnluCoProductCatalog.EntegrasyonTests.Common
             services.AddDbContext<ProductCatalogDbContext>(options => options.UseInMemoryDatabase("Category"));
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //services.AddAutoMapper(Assembly.GetAssembly(typeof(CategoryViewModel)));
+            services.AddAutoMapper(typeof(CategoryViewModel), typeof(CommandCategoryViewModel));
+
+
             services.AddScoped<IColorRepository, ColorRepository>();
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IOfferRepository, OfferRepository>();
@@ -50,7 +56,6 @@ namespace UnluCoProductCatalog.EntegrasyonTests.Common
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ProductCatalogDbContext>().AddDefaultTokenProviders();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -70,7 +75,6 @@ namespace UnluCoProductCatalog.EntegrasyonTests.Common
                 {
                     CategoryName = "Test"+i.ToString(),
                     CreatedDate = DateTime.Now.AddDays(1)
-
                 };
                 context.Categories.Add(category);
             };

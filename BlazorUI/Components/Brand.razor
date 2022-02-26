@@ -4,7 +4,6 @@
 
 @using System.Text
 @using Newtonsoft.Json
-@using JsonSerializer = System.Text.Json.JsonSerializer
 @inject IHttpClientFactory clientFactory
 
 @if (Brands is null)
@@ -106,7 +105,7 @@ else
 
         var request = new HttpRequestMessage(HttpMethod.Post, path);
 
-        var content = JsonSerializer.Serialize(_brand);
+        var content = JsonConvert.SerializeObject(_brand);
 
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
 
@@ -147,12 +146,11 @@ else
 
         var request = new HttpRequestMessage(HttpMethod.Put, path);
 
-        var content = JsonSerializer.Serialize(_brand);
+        var content = JsonConvert.SerializeObject(_brand);
 
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
 
         var result = await client.PutAsync( path, bodyContent);
-        var response = await client.SendAsync(request);
 
     }
 
@@ -164,7 +162,7 @@ else
 
         var request = new HttpRequestMessage(HttpMethod.Delete, path);
 
-        var content = JsonSerializer.Serialize(_brand);
+        var content = JsonConvert.SerializeObject(_brand);
 
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
 

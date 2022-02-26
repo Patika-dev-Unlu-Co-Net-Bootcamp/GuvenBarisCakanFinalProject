@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         public IActionResult Create([FromBody] CommandCategoryViewModel category)
         {
             _categoryService.Create(category);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpPut("{id}")]

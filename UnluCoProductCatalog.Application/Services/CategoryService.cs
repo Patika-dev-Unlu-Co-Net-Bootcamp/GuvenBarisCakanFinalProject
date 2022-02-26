@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using System.Collections.Generic;
+using System.Linq;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
@@ -25,7 +26,7 @@ namespace UnluCoProductCatalog.Application.Services
         public IEnumerable<CategoryViewModel> GetAll()
         {
             var categories = _unitOfWork.Category.GetAll();
-            var result = _mapper.Map<List<CategoryViewModel>>(categories);
+            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
 
             return result;
         }

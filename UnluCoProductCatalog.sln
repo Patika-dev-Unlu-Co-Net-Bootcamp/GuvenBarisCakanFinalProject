@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorUI", "BlazorUI\Blazor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2EC373FE-6F9D-4F9D-9A58-9AC1F8195E90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnluCoProductCatalog.UnitTest", "UnluCoProductCatalog.UnitTest\UnluCoProductCatalog.UnitTest.csproj", "{2B236C3B-6D1A-4FA3-9DBB-DCD83E946B6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnluCoProductCatalog.UnitTests", "UnluCoProductCatalog.UnitTest\UnluCoProductCatalog.UnitTests.csproj", "{2B236C3B-6D1A-4FA3-9DBB-DCD83E946B6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnluCoProductCatalog.EntegrasyonTests", "UnluCoProductCatalog.EntegrasyonTests\UnluCoProductCatalog.EntegrasyonTests.csproj", "{DD7904BA-6DFA-4B41-947C-DEA7E83694AF}"
 EndProject

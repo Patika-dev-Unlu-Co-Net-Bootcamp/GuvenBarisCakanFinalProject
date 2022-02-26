@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +10,13 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using UnluCoProductCatalog.Application.DependencyContainers;
+using UnluCoProductCatalog.Application.Interfaces.LogInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Services;
 using UnluCoProductCatalog.Infrastructure.DependencyContainers;
 using UnluCoProductCatalog.Persistence.DependecnyContainers;
+using UnluCoProductCatalog.Persistence.Services.LogService;
+using WebAPI.Middlewares;
 
 namespace WebAPI
 {
@@ -37,6 +41,7 @@ namespace WebAPI
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "WebAPI", Version = "v1"}); });
 
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IProductService, ProductService>();
@@ -46,7 +51,6 @@ namespace WebAPI
             services.AddScoped<IColorService, ColorService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IUsingStatusService, UsingStatusService>();
-
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public virtual  void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -60,15 +64,11 @@ namespace WebAPI
 
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
-            //app.UseAuthorization();
-            //app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
-            //    RequestPath = new PathString("/StaticFiles")
-            //});
+            app.UseAuthorization();
+
+            app.UseCustomeExceptionMiddle();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
