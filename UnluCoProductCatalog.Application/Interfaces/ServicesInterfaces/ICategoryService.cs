@@ -9,7 +9,7 @@ namespace UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces
     {
         IEnumerable<CategoryViewModel> GetAll();
         void Create(CommandCategoryViewModel entity);
-        void Update(CommandCategoryViewModel entity,int id);
+        void Update(CommandCategoryViewModel entity, int id);
         void Delete(int id);
     }
 }
