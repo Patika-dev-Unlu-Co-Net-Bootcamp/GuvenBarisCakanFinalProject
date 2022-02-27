@@ -6,7 +6,7 @@
 Bu proje temel olarak üç ana projenin birleşmesinden oluşmaktadır. 
 Bunlar;
 
-[1.Deneme](##domain)
+[1.Deneme](#domain)
 
 * WebAPI
 * BlazorUI 
@@ -18,7 +18,7 @@ Projenin klasör yapılanması aşağıdaki gibidir.
 
 ![Folder Structure](https://raw.githubusercontent.com/guvenbaris/NetCorePatikasi/guvenbaris/NetCorePatikasi/folder.jpg)
 
-##Domain
+## Domain
 
 Uygulamamızın database tablolarına karşılık gelen classları oluşturduğumuz katmandır.
 Entity framework code-first yaklaşımı kullanılmıştır. Class'ları yani Entity'leri 
