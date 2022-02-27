@@ -47,11 +47,11 @@ yapılması için bir sonra ki katmana gönderilir.
 
 ![application](https://raw.githubusercontent.com/guvenbaris/NetCorePatikasi/guvenbaris/NetCorePatikasi/Application.jpg)
 
-*Interfaces*  : Soyutlama işlemlerini yaptığımız kısımdır.  
-*Services*   : WebAPI den gelen requestlere karşılık verdiğimiz kısımdır. İş kuralları da denilmektedir.
-*ViewModels* : Entitylerimizi kullanıcıya gereksiz kısımları göstermemek için oluşturduğumuz ara nesnelerdir.  
-*DependencyContainers* : Application katmanının bağımlılık çözümleyici kısmıdır. WebAPI ye eklenmesi gerekir.
-
+*Interfaces*  : Soyutlama işlemlerini yaptığımız kısımdır.   
+*Services*   : WebAPI den gelen requestlere karşılık verdiğimiz kısımdır. İş kuralları da denilmektedir.    
+*ViewModels* : Entitylerimizi kullanıcıya gereksiz kısımları göstermemek için oluşturduğumuz ara nesnelerdir.      
+*DependencyContainers* : Application katmanının bağımlılık çözümleyici kısmıdır. WebAPI ye eklenmesi gerekir.    
+ 
 ## Infrastructure
 Database'e erişimi olan tek katmandır. Database erişim bu katman üzerinden sağlanır. 
 Application katmanında tanımladığımız soyut kavramlar(Interfaces) bu katman da 
