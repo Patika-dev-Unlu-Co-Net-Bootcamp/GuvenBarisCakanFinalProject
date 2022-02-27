@@ -22,7 +22,7 @@ Bunlar;
   * [9.Proje Çalıştırılması](#proje-run)
   
 
-[Onion Architecture](https://www.gencayyildiz.com/blog/nedir-bu-onion-architecture-tam-teferruatli-inceleyelim/) 
+Bu projede [Onion Architecture](https://www.gencayyildiz.com/blog/nedir-bu-onion-architecture-tam-teferruatli-inceleyelim/) 
 katmanlı mimarisi kullanıldı. Bu mimari temel olarak dört kısımdan oluşmaktadır.
 Projenin klasör yapılanması aşağıdaki gibidir. 
 
