@@ -134,11 +134,8 @@ gönderildiğin de API dönmesi gereken response 'un kotrolü yapılıyor.
 
 *Common*  : WebAPI konfigürasyonları yapulmıştır. 
 
-<h4 id="login-optional-fields">
-Optional Fields
-</h4>
 
-# Proje Run 
+<h1 id ="proje-run">Proje Çalıştırılması</h1>
 
 Projeyi çalıştırmak için Multiple Startup'ı seçmemiz gerekiyor Solution Properties'lerinden.
 Burada WebAPI,Consumer,BlazorUI sırası ile start verilmelidir.
