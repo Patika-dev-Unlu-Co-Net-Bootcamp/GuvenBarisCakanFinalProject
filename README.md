@@ -17,8 +17,8 @@ Bunlar;
   * [6.BlazorUI](#blazorui)
   * [7.Consumer](#consumer)
   * [8.Tests](#tests)
-  * [8.1.Unit Test](#unittest)
-  * [8.2.Entegrasyon Test](#entegrasyontest)
+  * * [8.1.Unit Test](#unittest)
+  * * [8.2.Entegrasyon Test](#entegrasyontest)
   * [9.Proje Çalıştırılması](#proje-run)
   
 
