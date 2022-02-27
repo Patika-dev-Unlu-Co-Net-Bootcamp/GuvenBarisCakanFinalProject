@@ -85,7 +85,8 @@ namespace UnluCoProductCatalog.Application.Services
                 _pusblisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
                 throw new InvalidOperationException("Password is not correct");
             }
-            
+
+            if (userFind.AccessFailedCount < 3) userFind.AccessFailedCount = 0;
             var userRoles = await _userManager.GetRolesAsync(userFind);
             return _tokenGenarator.CreateToken(userFind, userRoles);
         }
