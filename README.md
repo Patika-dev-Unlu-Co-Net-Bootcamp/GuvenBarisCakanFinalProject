@@ -17,11 +17,9 @@ Bunlar;
   * [6.BlazorUI](#blazorui)
   * [7.Consumer](#consumer)
   * [8.Tests](#tests)
-  * [8.1.Unit Test](#unit test)
-  * [8.2.Entegrasyon Test](#entegrasyon test)
-  * [9.Proje Çalıştırılması](#projerun)
-  * [see above](#login-optional-fields)
-
+  * [8.1.Unit Test](#unittest)
+  * [8.2.Entegrasyon Test](#entegrasyontest)
+  * [9.Proje Çalıştırılması](#proje-run)
   
 
 [Onion Architecture](https://www.gencayyildiz.com/blog/nedir-bu-onion-architecture-tam-teferruatli-inceleyelim/) 
@@ -110,7 +108,7 @@ Temel de iki test projemiz bulunmaktadır.Bunlar;
 * Unit Test
 * Entegrasyon Test
 
-### Unit Test
+<h3 id="unittest">Unit Test </h3>
 Unit Test, bir sistemde mantıksal olarak izole edilebilecek en küçük kod parçası olan bir birimi test etmenin bir yoludur.
 CategoryService ve de CategoryRepository class'larının methodlarına  Unit Test yazılmıştır.
 
@@ -121,7 +119,7 @@ methodlarına yazdığımız test classlarıdır.
 *DateGenerator*  : Database olarak InMemory database kullanmak için gerekli ayarlamalar ve de test methodlarında 
 kullanmamız için gerekli veri deposu tanımlanmıştır.
 
-### Entegrasyon Test 
+<h3 id="entegrasyontest">Entegrasyon Test </h3>
 Yazılım geliştirme uzmanlarının birim test sırasında ayrı ayrı test ettikleri bileşenler 
 birbirine entegre edildikleri zaman hataya sebep olabilirler.
 Entegrasyon testi, sistemin bu farklı bileşenlerinin(birimlerinin) 
