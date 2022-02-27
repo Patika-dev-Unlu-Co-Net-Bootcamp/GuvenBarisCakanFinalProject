@@ -35,6 +35,7 @@ Entity framework code-first yaklaşımı kullanılmıştır. Class'ları yani En
 oluşturup daha sonra database kısmına aktarılmıştır. 
 
 **Domain Class Library**
+
 ![domain](https://raw.githubusercontent.com/guvenbaris/NetCorePatikasi/guvenbaris/NetCorePatikasi/Domain.jpg)
 
 ## Application
@@ -109,6 +110,7 @@ Temel de iki test projemiz bulunmaktadır.Bunlar;
 * Entegrasyon Test
 
 <h3 id="unittest">Unit Test </h3>
+
 Unit Test, bir sistemde mantıksal olarak izole edilebilecek en küçük kod parçası olan bir birimi test etmenin bir yoludur.
 CategoryService ve de CategoryRepository class'larının methodlarına  Unit Test yazılmıştır.
 
@@ -120,6 +122,7 @@ methodlarına yazdığımız test classlarıdır.
 kullanmamız için gerekli veri deposu tanımlanmıştır.
 
 <h3 id="entegrasyontest">Entegrasyon Test </h3>
+
 Yazılım geliştirme uzmanlarının birim test sırasında ayrı ayrı test ettikleri bileşenler 
 birbirine entegre edildikleri zaman hataya sebep olabilirler.
 Entegrasyon testi, sistemin bu farklı bileşenlerinin(birimlerinin) 
