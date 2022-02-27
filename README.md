@@ -64,7 +64,7 @@ database kullanılacağını belirtiyoruz. Entity Framework package kullanılmı
 *DependencyContainers* : Infrastructure katmanının bağımlılık çözümleyici kısmıdır. WebAPI ye eklenmesi gerekir.  
 *Migrations* : Entity Framework code-first yaklaşımı uygulandığından, Entity Framework'ün entitylerimize 
 göre oluşturduğu database tablolarını oluşturması için konfigürasyon nesnelerinin olduğu kısımdır.  
-*Repositories* : Application k(atmanın da ki Interfaces'ların karşılıklarının olduğu kısımdır. 
+*Repositories* : Application k(atmanın da ki Interfaces'ların karşılıklarının olduğu kısımdır.          
 *UnitOfWorks* : [Unit Of Work](https://www.c-sharpcorner.com/UploadFile/b1df45/unit-of-work-in-repository-pattern/#:~:text=Unit%20of%20Work%20is%20the,update%2Fdelete%20and%20so%20on.) design pattern, Repository nesnelerini tek bir yerden 
 yönetilebilmesini sağlamak amacıyla kullanılmıştır.
 
