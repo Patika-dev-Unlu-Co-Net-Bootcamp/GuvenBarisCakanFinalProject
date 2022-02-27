@@ -2,15 +2,24 @@
 # Unlu&Co Ve Patika.dev Final Projesi
 
 ## Ürün Katalog Projesi
-
 Bu proje temel olarak üç ana projenin birleşmesinden oluşmaktadır. 
 Bunlar;
-
-[1.Deneme](#domain)
-
 * WebAPI
 * BlazorUI 
 * Consumer
+
+## İçindekiler 
+  * [1.Domain](#domain)
+  * [2.Application](#application)
+  * [3.Infrastructure](#infrastructure)
+  * [4.Persistence](#persistence)
+  * [5.WebAPI](#webapi)
+  * [6.BlazorUI](#blazorui)
+  * [7.Consumer](#consumer)
+  * [8.Tests](#tests)
+  * * [8.1.Unit Test](#unit test)
+  * * [8.2.Entegrasyon Test](#entegrasyon test)
+  * [9.Proje Çalıştırılması](#proje çalıştırılması)
 
 [Onion Architecture](https://www.gencayyildiz.com/blog/nedir-bu-onion-architecture-tam-teferruatli-inceleyelim/) 
 katmanlı mimarisi kullanıldı. Bu mimari temel olarak dört kısımdan oluşmaktadır.
@@ -57,7 +66,7 @@ göre oluşturduğu database tablolarını oluşturması için konfigürasyon ne
 *UnitOfWorks* : [Unit Of Work](https://www.c-sharpcorner.com/UploadFile/b1df45/unit-of-work-in-repository-pattern/#:~:text=Unit%20of%20Work%20is%20the,update%2Fdelete%20and%20so%20on.) design pattern, Repository nesnelerini tek bir yerden 
 yönetilebilmesini sağlamak amacıyla kullanılmıştır.
 
-## Persistance
+## Persistence
 Sisteme eklenecek dış/external yapılanmalar bu katmanda dahil edilir. 
 
 ![persistence](https://raw.githubusercontent.com/guvenbaris/NetCorePatikasi/guvenbaris/NetCorePatikasi/Persistence.jpg)
