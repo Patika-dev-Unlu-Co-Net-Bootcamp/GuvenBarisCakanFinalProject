@@ -4,7 +4,7 @@ using System.Linq;
 using UnluCoProductCatalog.Application.ViewModels.CategoryViewModels;
 using UnluCoProductCatalog.Domain.Entities;
 
-namespace UnluCoProductCatalog.UnitTest.DataGenerator
+namespace UnluCoProductCatalog.UnitTests.DataGenerator
 {
     public static class DataWareHouse
     {

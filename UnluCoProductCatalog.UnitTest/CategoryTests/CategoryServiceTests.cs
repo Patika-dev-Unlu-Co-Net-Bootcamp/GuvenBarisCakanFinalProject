@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.TestHelper;
 using Moq;
 using UnluCoProductCatalog.Application.Exceptions;
 using UnluCoProductCatalog.Application.Interfaces.Repositories;
@@ -9,10 +8,10 @@ using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
 using UnluCoProductCatalog.Application.Mapping;
 using UnluCoProductCatalog.Application.Services;
 using UnluCoProductCatalog.Application.Validations.CategoryValidation;
-using UnluCoProductCatalog.UnitTest.DataGenerator;
+using UnluCoProductCatalog.UnitTests.DataGenerator;
 using Xunit;
 
-namespace UnluCoProductCatalog.UnitTest.CategoryTests
+namespace UnluCoProductCatalog.UnitTests.CategoryTests
 {
     public class CategoryServiceTests
     {

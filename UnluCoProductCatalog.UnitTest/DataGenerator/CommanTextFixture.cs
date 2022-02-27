@@ -1,8 +1,7 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UnluCoProductCatalog.Infrastructure.Contexts;
 
-namespace UnluCoProductCatalog.UnitTest.DataGenerator
+namespace UnluCoProductCatalog.UnitTests.DataGenerator
 {
     public class CommanTextFixture
     {

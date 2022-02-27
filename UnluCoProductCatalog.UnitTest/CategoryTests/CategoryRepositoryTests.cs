@@ -3,10 +3,10 @@ using System.Linq;
 using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Infrastructure.Contexts;
 using UnluCoProductCatalog.Infrastructure.Repositories;
-using UnluCoProductCatalog.UnitTest.DataGenerator;
+using UnluCoProductCatalog.UnitTests.DataGenerator;
 using Xunit;
 
-namespace UnluCoProductCatalog.UnitTest.CategoryTests
+namespace UnluCoProductCatalog.UnitTests.CategoryTests
 {
    
     public class CategoryRepositoryTests :IClassFixture<CommanTextFixture>
