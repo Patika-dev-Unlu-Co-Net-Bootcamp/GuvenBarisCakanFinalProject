@@ -17,9 +17,9 @@ Bunlar;
   * [6.BlazorUI](#blazorui)
   * [7.Consumer](#consumer)
   * [8.Tests](#tests)
-  * * [8.1.Unit Test](#unit test)
-  * * [8.2.Entegrasyon Test](#entegrasyon test)
-  * [9.Proje Çalıştırılması](#proje çalıştırılması)
+  * [8.1.Unit Test](#unittest)
+  * [8.2.Entegrasyon Test](#entegrasyontest)
+  * [9.Proje Çalıştırılması](#projerun)
 
 [Onion Architecture](https://www.gencayyildiz.com/blog/nedir-bu-onion-architecture-tam-teferruatli-inceleyelim/) 
 katmanlı mimarisi kullanıldı. Bu mimari temel olarak dört kısımdan oluşmaktadır.
@@ -132,7 +132,7 @@ gönderildiğin de API dönmesi gereken response 'un kotrolü yapılıyor.
 *Common*  : WebAPI konfigürasyonları yapulmıştır. 
 
 
-# Proje Çalıştırılması 
+# Proje Run 
 
 Projeyi çalıştırmak için Multiple Startup'ı seçmemiz gerekiyor Solution Properties'lerinden.
 Burada WebAPI,Consumer,BlazorUI sırası ile start verilmelidir.
