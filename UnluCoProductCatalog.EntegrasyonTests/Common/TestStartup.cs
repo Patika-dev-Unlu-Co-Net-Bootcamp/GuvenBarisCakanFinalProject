@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UnluCoProductCatalog.Application.Interfaces.LogInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.Repositories;
 using UnluCoProductCatalog.Application.Interfaces.ServicesInterfaces;
 using UnluCoProductCatalog.Application.Interfaces.UnitOfWorks;
@@ -16,6 +17,7 @@ using UnluCoProductCatalog.Domain.Entities;
 using UnluCoProductCatalog.Infrastructure.Contexts;
 using UnluCoProductCatalog.Infrastructure.Repositories;
 using UnluCoProductCatalog.Infrastructure.UnitOfWorks;
+using UnluCoProductCatalog.Persistence.Services.LogService;
 
 
 namespace UnluCoProductCatalog.EntegrasyonTests.Common
@@ -55,6 +57,8 @@ namespace UnluCoProductCatalog.EntegrasyonTests.Common
                 options.Password.RequireDigit = false;
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ProductCatalogDbContext>().AddDefaultTokenProviders();
+
+            services.AddSingleton<ILoggerService, ConsoleLoggerService>();
 
         }
 

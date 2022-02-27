@@ -75,18 +75,22 @@ namespace UnluCoProductCatalog.Application.Services
             if (!result)
             {
                 await AccessRightControl(userFind);
-
-                var email = new EmailToSend()
-                {
-                    To = userFind.Email,
-                    Subject = "Welcome",
-                    Body = "Hope you have a good time on our site",
-                };
-                _pusblisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
                 throw new InvalidOperationException("Password is not correct");
             }
 
-            if (userFind.AccessFailedCount < 3) userFind.AccessFailedCount = 0;
+            if (userFind.AccessFailedCount < 3)
+            {
+                userFind.AccessFailedCount = 0;
+                await _userManager.UpdateAsync(userFind);
+            }
+
+            var email = new EmailToSend
+            {
+                To = userFind.Email,
+                Subject = "Welcome",
+                Body = "Hope you have a good time on our site",
+            };
+            _pusblisherService.Publish(email, RabbitMqQueue.EmailSenderQueue.ToString());
             var userRoles = await _userManager.GetRolesAsync(userFind);
             return _tokenGenarator.CreateToken(userFind, userRoles);
         }
@@ -100,7 +104,7 @@ namespace UnluCoProductCatalog.Application.Services
                 userFind.LockoutEnabled = true;
                 await _userManager.UpdateAsync(userFind);
 
-                var email = new EmailToSend()
+                var email = new EmailToSend
                 {
                     To = userFind.Email,
                     Subject = "Account Blocked",

@@ -125,10 +125,16 @@ namespace UnluCoProductCatalog.EntegrasyonTests.CategoryController
             var content = new StringContent(JsonConvert.SerializeObject(category),Encoding.UTF8,"application/json");
 
             var responseUpdate = await client.PutAsync($"api/Categories/{category.Id}", content);
-
             Assert.Equal(HttpStatusCode.OK, responseUpdate.StatusCode);
-            
 
+            var responseAfterUpdate = await client.GetAsync("api/Categories");
+            var jsonUpdated = await responseAfterUpdate.Content.ReadAsStringAsync();
+            var lastCategories = JsonConvert.DeserializeObject<List<CategoryViewModel>>(jsonUpdated)?.AsQueryable();
+
+            var result = lastCategories?.Any(x => x.CategoryName == category.CategoryName);
+
+            Assert.True(result);
+            Assert.NotNull(lastCategories);
         }
 
     }
